@@ -1,7 +1,7 @@
 # Arbetsmarknadsguiden #
 ## Vision ##
-Arbetsmarknadsguiden (AMG) är ett statistiskt verktyg för studenter eller yrkesmänniskor som vill utveckla de färdigheter som är mest relevanta för deras yrkesgrupp.
-För att avgöra detta så samlar AMG in jobbannonser från olika källor och söker igenom dem efter relevanta nyckelord. För en systemutvecklare skulle sådana nyckelord kunna vara "C#", ".NET", "PHP" eller "MySQL". Frekvensen av dessa nyckelord antas stå i direkt relation till behovet av utvecklare med de kunskaperna. Därmed kan efterfrågan på olika färdigheter och kunskaper härledas utifrån detta.
+Arbetsmarknadsguiden (AMG) är ett statistiskt verktyg för studenter eller yrkesmänniskor som vill utveckla de färdigheter som är mest relevanta för deras yrkesgrupp.  
+För att avgöra detta så samlar AMG in jobbannonser från olika källor och söker igenom dem efter relevanta nyckelord. För en systemutvecklare skulle sådana nyckelord kunna vara "C#", ".NET", "PHP" eller "MySQL". Frekvensen av dessa nyckelord antas stå i direkt relation till behovet av utvecklare med de kunskaperna. Därmed kan efterfrågan på olika färdigheter och kunskaper härledas utifrån detta.  
 Utöver att se vilka färdigheter som är relevanta i dagsläget ska applikationen även kunna visa trender och historisk data.
 
 ## Krav ##
@@ -27,7 +27,7 @@ Utöver att se vilka färdigheter som är relevanta i dagsläget ska applikationen ä
 ### UC 1.1  - Användaren startar applikationen ###
 Normal navigering in på sidan.
 
-**Input:**
+**Input:**  
 1. Användaren går in på sidan.
 
 **Output:**
@@ -36,7 +36,7 @@ Normal navigering in på sidan.
 ### UC 1.2 - Användaren söker på ett nyckelord ###
 Enkel sökning på ett nyckelord.
 
-**Input:**
+**Input:**  
 1. Användaren navigerar till startsidan.
 2. Användaren skriver in ett nyckelord (ex. "PHP") i sökfältet.
 3. Användaren skickar formuläret.
@@ -50,7 +50,7 @@ Enkel sökning på ett nyckelord.
 ### UC 1.3 - Användaren söker efter region ###
 Användaren vill ha information om ett område.
 
-**Input:**
+**Input:**  
 1. Användaren navigerar till startsidan.
 2. Användaren anger en region (ex. "Kalmar län").
 3. Användaren skickar formuläret.
@@ -61,7 +61,7 @@ Användaren vill ha information om ett område.
 
 ### UC 1.4 - Användaren söker på yrkesgrupp ###
 
-**Input:**
+**Input:**  
 1. Användaren navigerar till startsidan.
 2. Användaren anger en yrkesgrupp (ex. "Systemutvecklare").
 3. Användaren skickar formuläret.
@@ -73,7 +73,7 @@ Användaren vill ha information om ett område.
 
 ### UC 1.5 - Användaren söker på ett nyckelord och anger region ###
 
-**Input:**
+**Input:**  
 1. Användaren navigerar till startsidan.
 2. Användaren skriver in ett sökord (ex. "PHP") i sökfältet.
 3. Användaren anger en region (ex. "Kalmar län").
@@ -84,7 +84,7 @@ Användaren vill ha information om ett område.
 
 ### UC 1.6 - Användaren söker på ett nyckelord och anger yrkesgrupp ###
 
-**Input:**
+**Input:**  
 1. Användaren navigerar till startsidan.
 2. Användaren skriver in ett sökord (ex. "PHP") i sökfältet.
 3. Användaren anger en yrkesgrupp (ex. "Systemutvecklare").
@@ -95,7 +95,7 @@ Användaren vill ha information om ett område.
 
 ### UC 1.7 - Användaren söker på region och yrkesgrupp ###
 
-**Input:**
+**Input:**  
 1. Användaren navigerar till startsidan.
 2. Användaren anger en region (ex. "Kalmar län").
 3. Användaren anger en yrkesgrupp (ex. "Systemutvecklare").
@@ -108,7 +108,7 @@ Användaren vill ha information om ett område.
 
 ### UC 1.8 - Användaren söker på ett nyckelord och anger region och yrkesgrupp ###
 
-**Input:**
+**Input:**  
 1. Användaren navigerar till startsidan.
 2. Användaren skriver in ett sökord (ex. "PHP") i sökfältet.
 3. Användaren anger en region (ex. "Kalmar län").
