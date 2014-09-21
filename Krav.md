@@ -2,145 +2,145 @@
 
 ## Vision ##
 
-Arbetsmarknadsguiden (AMG) är ett statistiskt verktyg för studenter eller yrkesmänniskor som vill utveckla de färdigheter som är mest relevanta för deras yrkesgrupp.  
-För att avgöra detta så samlar AMG in jobbannonser från olika källor och söker igenom dem efter relevanta nyckelord. För en systemutvecklare skulle sådana nyckelord kunna vara "C#", ".NET", "PHP" eller "MySQL". Frekvensen av dessa nyckelord antas stå i direkt relation till behovet av utvecklare med de kunskaperna. Därmed kan efterfrågan på olika färdigheter och kunskaper härledas utifrån detta.  
-Utöver att se vilka färdigheter som är relevanta i dagsläget ska applikationen även kunna visa trender och historisk data.
+Arbetsmarknadsguiden (AMG) Ã¤r ett statistiskt verktyg fÃ¶r studenter eller yrkesmÃ¤nniskor som vill utveckla de fÃ¤rdigheter som Ã¤r mest relevanta fÃ¶r deras yrkesgrupp.  
+FÃ¶r att avgÃ¶ra detta sÃ¥ samlar AMG in jobbannonser frÃ¥n olika kÃ¤llor och sÃ¶ker igenom dem efter relevanta nyckelord. FÃ¶r en systemutvecklare skulle sÃ¥dana nyckelord kunna vara "C#", ".NET", "PHP" eller "MySQL". Frekvensen av dessa nyckelord antas stÃ¥ i ungefÃ¤rlig relation till behovet av utvecklare med de kunskaperna. DÃ¤rmed kan efterfrÃ¥gan pÃ¥ olika fÃ¤rdigheter och kunskaper hÃ¤rledas utifrÃ¥n detta.  
+UtÃ¶ver att se vilka fÃ¤rdigheter som Ã¤r relevanta i dagslÃ¤get ska applikationen Ã¤ven kunna visa trender och historisk data.
 
 ## Krav ##
 
 ### Systemkrav ###
 
-1. Systemet ska hämta jobbannonser från minst en källa.
+1. Systemet ska hÃ¤mta jobbannonser frÃ¥n minst en kÃ¤lla.
 2. Systemet ska lagra jobbannonser.
 
 ### Funktionskrav ###
 
-1. Systemet ska kunna presentera intressant data för användaren utifrån dennes val.
-	1. Användaren ska kunna ange relevanta nyckelord som systemet sedan presenterar statistik över.
-	2. Användaren ska kunna ange en region som är särskilt intressant.
-	3. Användaren ska kunna ange en yrkeskår som är särskilt intressant.
-2. Systemet ska kunna presentera historisk data för att påvisa trender.
+1. Systemet ska kunna presentera intressant data fÃ¶r anvÃ¤ndaren utifrÃ¥n dennes val.
+	1. AnvÃ¤ndaren ska kunna ange relevanta nyckelord som systemet sedan presenterar statistik Ã¶ver.
+	2. AnvÃ¤ndaren ska kunna ange en region som Ã¤r sÃ¤rskilt intressant.
+	3. AnvÃ¤ndaren ska kunna ange en yrkeskÃ¥r som Ã¤r sÃ¤rskilt intressant.
+2. Systemet ska kunna presentera historisk data fÃ¶r att pÃ¥visa trender.
 
 ### Kvalitetskrav ###
 
-1. Statistiken ska presenteras på ett sätt som gör det lätt för användaren att förstå den.
+1. Statistiken ska presenteras pÃ¥ ett sÃ¤tt som gÃ¶r det lÃ¤tt fÃ¶r anvÃ¤ndaren att fÃ¶rstÃ¥ den.
 	1. Trender ska kunna presenteras i form av grafer.
 	2. Nyckelordsfrekvens ska kunna presenteras i form av stapeldiagram eller "top 100"-listor.
-2. Användarvalen ska vara tydliga.
+2. AnvÃ¤ndarvalen ska vara tydliga.
 
-## Användarfall (Use Cases) ##
+## AnvÃ¤ndarfall (Use Cases) ##
 
-### UC 1.1  - Användaren startar applikationen ###
-Normal navigering in på sidan.
+### UC 1.1  - AnvÃ¤ndaren startar applikationen ###
+Normal navigering in pÃ¥ sidan.
 
 **Input:**
 
-1. Användaren går in på sidan.
+1. AnvÃ¤ndaren gÃ¥r in pÃ¥ sidan.
 
 **Output:**
 
 * Startsidan presenteras.
 
-### UC 1.2 - Användaren söker på ett nyckelord ###
-Enkel sökning på ett nyckelord.
+### UC 1.2 - AnvÃ¤ndaren sÃ¶ker pÃ¥ ett nyckelord ###
+Enkel sÃ¶kning pÃ¥ ett nyckelord.
 
 **Input:**
 
-1. Användaren navigerar till startsidan.
-2. Användaren skriver in ett nyckelord (ex. "PHP") i sökfältet.
-3. Användaren skickar formuläret.
+1. AnvÃ¤ndaren navigerar till startsidan.
+2. AnvÃ¤ndaren skriver in ett nyckelord (ex. "PHP") i sÃ¶kfÃ¤ltet.
+3. AnvÃ¤ndaren skickar formulÃ¤ret.
 
 **Output:**
 
-* En egen sida för nyckelordet presenteras.
-* En graf visas där nyckelordets frekvens över tid visas. Aktuell frekvens framgår tydligt i denna.
-* Länkar till yrkesgrupper som nyckelordet förknippas med visas i en lista, sorterat efter vanlighet.
-* Ett antal regioner där nyckelordet är vanligt visas i en lista, sorterat efter vanlighet.
+* En egen sida fÃ¶r nyckelordet presenteras.
+* En graf visas dÃ¤r nyckelordets frekvens Ã¶ver tid visas. Aktuell frekvens framgÃ¥r tydligt i denna.
+* LÃ¤nkar till yrkesgrupper som nyckelordet fÃ¶rknippas med visas i en lista, sorterat efter vanlighet.
+* Ett antal regioner dÃ¤r nyckelordet Ã¤r vanligt visas i en lista, sorterat efter vanlighet.
 
-### UC 1.3 - Användaren söker efter region ###
-Användaren vill ha information om ett område.
+### UC 1.3 - AnvÃ¤ndaren sÃ¶ker efter region ###
+AnvÃ¤ndaren vill ha information om ett omrÃ¥de.
 
 **Input:**
 
-1. Användaren navigerar till startsidan.
-2. Användaren anger en region (ex. "Kalmar län").
-3. Användaren skickar formuläret.
+1. AnvÃ¤ndaren navigerar till startsidan.
+2. AnvÃ¤ndaren anger en region (ex. "Kalmar lÃ¤n").
+3. AnvÃ¤ndaren skickar formulÃ¤ret.
 
 **Output:**
 
-* En egen sida för regionen presenteras.
-* En länkad lista över vanliga yrkesgrupper i regionen visas.
+* En egen sida fÃ¶r regionen presenteras.
+* En lÃ¤nkad lista Ã¶ver vanliga yrkesgrupper i regionen visas.
 
-### UC 1.4 - Användaren söker på yrkesgrupp ###
+### UC 1.4 - AnvÃ¤ndaren sÃ¶ker pÃ¥ yrkesgrupp ###
 
 **Input:**
 
-1. Användaren navigerar till startsidan.
-2. Användaren anger en yrkesgrupp (ex. "Systemutvecklare").
-3. Användaren skickar formuläret.
+1. AnvÃ¤ndaren navigerar till startsidan.
+2. AnvÃ¤ndaren anger en yrkesgrupp (ex. "Systemutvecklare").
+3. AnvÃ¤ndaren skickar formulÃ¤ret.
 
 **Output:**
 
-* En egen sida för yrkesgruppen visas.
-* En graf visar efterfrågan på yrkesgruppen över tid.
-* Ett länkat stapeldiagram med de vanligaste nyckelorden för yrkeskåren visas.
+* En egen sida fÃ¶r yrkesgruppen visas.
+* En graf visar efterfrÃ¥gan pÃ¥ yrkesgruppen Ã¶ver tid.
+* Ett lÃ¤nkat stapeldiagram med de vanligaste nyckelorden fÃ¶r yrkeskÃ¥ren visas.
 
-### UC 1.5 - Användaren söker på ett nyckelord och anger region ###
+### UC 1.5 - AnvÃ¤ndaren sÃ¶ker pÃ¥ ett nyckelord och anger region ###
 
 **Input:**
 
-1. Användaren navigerar till startsidan.
-2. Användaren skriver in ett sökord (ex. "PHP") i sökfältet.
-3. Användaren anger en region (ex. "Kalmar län").
-4. Användaren skickar formuläret.
+1. AnvÃ¤ndaren navigerar till startsidan.
+2. AnvÃ¤ndaren skriver in ett sÃ¶kord (ex. "PHP") i sÃ¶kfÃ¤ltet.
+3. AnvÃ¤ndaren anger en region (ex. "Kalmar lÃ¤n").
+4. AnvÃ¤ndaren skickar formulÃ¤ret.
 
 **Output:**
 
-* Som 1.2, fast endast med data från den aktuella regionen.
-* Regionens namn framgår tydligt på sidan.
+* Som 1.2, fast endast med data frÃ¥n den aktuella regionen.
+* Regionens namn framgÃ¥r tydligt pÃ¥ sidan.
 
-### UC 1.6 - Användaren söker på ett nyckelord och anger yrkesgrupp ###
+### UC 1.6 - AnvÃ¤ndaren sÃ¶ker pÃ¥ ett nyckelord och anger yrkesgrupp ###
 
 **Input:**
 
-1. Användaren navigerar till startsidan.
-2. Användaren skriver in ett sökord (ex. "PHP") i sökfältet.
-3. Användaren anger en yrkesgrupp (ex. "Systemutvecklare").
+1. AnvÃ¤ndaren navigerar till startsidan.
+2. AnvÃ¤ndaren skriver in ett sÃ¶kord (ex. "PHP") i sÃ¶kfÃ¤ltet.
+3. AnvÃ¤ndaren anger en yrkesgrupp (ex. "Systemutvecklare").
 
 **Output:**
 
-* Som 1.2, fast endast med data från den aktuella yrkesgruppen.
-* En länkad lista med andra yrkesgrupper där nyckelordet är vanligt visas.
-* En länkad lista med andra för yrkesgruppen vanliga nyckelord visas.
+* Som 1.2, fast endast med data frÃ¥n den aktuella yrkesgruppen.
+* En lÃ¤nkad lista med andra yrkesgrupper dÃ¤r nyckelordet Ã¤r vanligt visas.
+* En lÃ¤nkad lista med andra fÃ¶r yrkesgruppen vanliga nyckelord visas.
 
-### UC 1.7 - Användaren söker på region och yrkesgrupp ###
+### UC 1.7 - AnvÃ¤ndaren sÃ¶ker pÃ¥ region och yrkesgrupp ###
 
 **Input:**
 
-1. Användaren navigerar till startsidan.
-2. Användaren anger en region (ex. "Kalmar län").
-3. Användaren anger en yrkesgrupp (ex. "Systemutvecklare").
-4. Användaren skickar formuläret.
+1. AnvÃ¤ndaren navigerar till startsidan.
+2. AnvÃ¤ndaren anger en region (ex. "Kalmar lÃ¤n").
+3. AnvÃ¤ndaren anger en yrkesgrupp (ex. "Systemutvecklare").
+4. AnvÃ¤ndaren skickar formulÃ¤ret.
 
 **Output:**
 
-* Ett länkat stapeldiagram med de vanligaste nyckelorden för yrkeskåren i regionen visas.
-* En graf som visar frekvensen på jobbannonser för yrkesgruppen i den regionen presenteras.
-* Regionens namn framgår tydligt på sidan.
+* Ett lÃ¤nkat stapeldiagram med de vanligaste nyckelorden fÃ¶r yrkeskÃ¥ren i regionen visas.
+* En graf som visar frekvensen pÃ¥ jobbannonser fÃ¶r yrkesgruppen i den regionen presenteras.
+* Regionens namn framgÃ¥r tydligt pÃ¥ sidan.
 
-### UC 1.8 - Användaren söker på ett nyckelord och anger region och yrkesgrupp ###
+### UC 1.8 - AnvÃ¤ndaren sÃ¶ker pÃ¥ ett nyckelord och anger region och yrkesgrupp ###
 
 **Input:**
 
-1. Användaren navigerar till startsidan.
-2. Användaren skriver in ett sökord (ex. "PHP") i sökfältet.
-3. Användaren anger en region (ex. "Kalmar län").
-4. Användaren anger en yrkesgrupp (ex. "Systemutvecklare").
-5. Användaren skickar formuläret.
+1. AnvÃ¤ndaren navigerar till startsidan.
+2. AnvÃ¤ndaren skriver in ett sÃ¶kord (ex. "PHP") i sÃ¶kfÃ¤ltet.
+3. AnvÃ¤ndaren anger en region (ex. "Kalmar lÃ¤n").
+4. AnvÃ¤ndaren anger en yrkesgrupp (ex. "Systemutvecklare").
+5. AnvÃ¤ndaren skickar formulÃ¤ret.
 
 **Output:**
 
-* Som 1.2, fast endast med data från den aktuella regionen och inom yrkesgruppen.
-* En länkad lista med andra yrkesgrupper i regionen där nyckelordet är vanligt visas.
-* En länkad lista med andra för yrkesgruppen vanliga nyckelord visas.
-* Regionens och yrkesgruppens namn framgår tydligt på sidan.
+* Som 1.2, fast endast med data frÃ¥n den aktuella regionen och inom yrkesgruppen.
+* En lÃ¤nkad lista med andra yrkesgrupper i regionen dÃ¤r nyckelordet Ã¤r vanligt visas.
+* En lÃ¤nkad lista med andra fÃ¶r yrkesgruppen vanliga nyckelord visas.
+* Regionens och yrkesgruppens namn framgÃ¥r tydligt pÃ¥ sidan.
