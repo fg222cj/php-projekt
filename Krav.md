@@ -8,12 +8,14 @@ Utöver att se vilka färdigheter som är relevanta i dagsläget ska applikationen ä
 ### Systemkrav ###
 1. Systemet ska hämta jobbannonser från minst en källa.
 2. Systemet ska lagra jobbannonser.
+
 ### Funktionskrav ###
 1. Systemet ska kunna presentera intressant data för användaren utifrån dennes val.
 	1. Användaren ska kunna ange relevanta nyckelord som systemet sedan presenterar statistik över.
 	2. Användaren ska kunna ange en region som är särskilt intressant.
 	3. Användaren ska kunna ange en yrkeskår som är särskilt intressant.
 2. Systemet ska kunna presentera historisk data för att påvisa trender.
+
 ### Kvalitetskrav ###
 1. Statistiken ska presenteras på ett sätt som gör det lätt för användaren att förstå den.
 	1. Trender ska kunna presenteras i form av grafer.
@@ -21,6 +23,7 @@ Utöver att se vilka färdigheter som är relevanta i dagsläget ska applikationen ä
 2. Användarvalen ska vara tydliga.
 
 ## Användarfall (Use Cases) ##
+
 ### UC 1.1  - Användaren startar applikationen ###
 Normal navigering in på sidan.
 
