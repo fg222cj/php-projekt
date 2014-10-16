@@ -22,13 +22,6 @@ class JobAdRepository extends Repository {
 
 		$query = $db->prepare($sql);
 		$query->execute($params);
-		/*
-		foreach($participant->getProjects()->toArray() as $project) {
-			$sql = "INSERT INTO ".self::$projectTable." (" . JOB_AD_ID_COLUMN . ", " . JOB_AD_HEADING_COLUMN . ", participantUnique) VALUES (?, ?, ?)";
-			$query = $db->prepare($sql);
-			$query->execute(array($project->getUnique(), $project->getName(), $participant->getUnique()));
-		}
-		 */
 	}
 
 	public function getFromDb($id) {
@@ -44,43 +37,26 @@ class JobAdRepository extends Repository {
 
 		if ($result) {
 			$jobAd = new \model\JobAd($result[JOB_AD_ID_COLUMN], $result[JOB_AD_HEADING_COLUMN]);
-			// Hämtar allt som tillhör ovan objekt.
-			/*
-			$sql = "SELECT * FROM ".self::$projectTable. " WHERE ".ProjectRepository::$owner." = ?";
-			$query = $db->prepare($sql);
-			$query->execute (array($result[JOB_AD_ID_COLUMN]));
-			$projects = $query->fetchAll();
-			foreach($projects as $project) {
-				$proj = new Project($project['projectName'], $project['uniqueKey']);
-				$user->add($proj);
-			}
-			 * */
 			return $jobAd;
 		}
 
 		return null;
 	}
+	
+	public function getCount($keyword) {
+		$db = $this->connection();
 
-	/*
-	public function find($unique) {
-		$db = $this -> connection();
+		$sql = "SELECT COUNT(*) FROM " . JOB_AD_TABLE . " WHERE " . JOB_AD_TEXT_COLUMN . " LIKE ?";
+		$params = array("%$keyword%");
 
-		$sql = "SELECT * FROM JOB_AD_TABLE WHERE " . JOB_AD_ID_COLUMN . " LIKE '%:unique%'";
-		$params = array($unique);
+		$query = $db->prepare($sql);
+		$query->execute($params);
 
-		$query = $db -> prepare($sql);
-		$query -> execute(array(':unique' => $unique));
+		$result = $query->fetchColumn();
 
-		$participantList = new \model\ParticipantList();
-
-		foreach ($query->fetchAll() as $result) {
-			$participantList -> add(new \model\Participant($result[JOB_AD_HEADING_COLUMN], $result[JOB_AD_ID_COLUMN]));
-		}
-
-		return $participantList;
+		return $result;
 
 	}
-	 */
 	 
 	public function delete(\model\JobAd $jobAd) {
 		$db = $this -> connection();
@@ -91,35 +67,7 @@ class JobAdRepository extends Repository {
 		$query = $db->prepare($sql);
 		$query->execute($params);
 	}
-/*
-	public function toList() {
-		try {
-			$db = $this -> connection();
 
-			$sql = "SELECT * FROM JOB_AD_TABLE";
-			$query = $db -> prepare($sql);
-			$query -> execute();
-
-			foreach ($query->fetchAll() as $owner) {
-				$name = $owner['name'];
-				$unique = $owner['uniqueKey'];
-
-				$parti = new Participant($name, $unique);
-
-				$this -> participants -> add($parti);
-			}
-
-			return $this -> participants;
-		} catch (\PDOException $e) {
-			echo '<pre>';
-			var_dump($e);
-			echo '</pre>';
-
-			die('Error while connection to database.');
-		}
-	}
- * 
- */
  	public function getFromXML($XMLPath) {
  		$xml = $this->loadXML($XMLPath);
 		$jobAd = new JobAd(0, $xml->annons->annonsid, $xml->annons->annonsrubrik, $xml->annons->annonstext, $xml->annons->yrkesbenamning,

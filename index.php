@@ -1,14 +1,13 @@
-<html>
-	<head>
-		<title>AMG</title>
-		<meta charset="UTF-8">
-	</head>
-	<body>
 <?php
-require_once("config.php");
-require_once("src/model/CountyRepository.php");
-require_once("src/model/JobCategoryRepository.php");
-require_once("src/model/JobAdRepository.php");
+require_once("./config.php");
+require_once("./src/view/HTMLView.php");
+require_once("./src/controller/DataController.php");
+
+$dc = new \controller\DataController();
+$HTMLBody = $dc->doControl();
+
+$htmlView = new \view\HTMLView();
+$htmlView->showHTML($HTMLBody);
 
 /*
 $countyRepo = new \model\CountyRepository();
@@ -32,5 +31,3 @@ echo "Platsannonser har lästs in."
 */
 ?>
 
-	</body>
-</html>

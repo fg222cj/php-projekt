@@ -5,6 +5,7 @@ define("DB_USERNAME", "root");
 define("DB_PASSWORD", "");
 define("DB_CONNECTION", "mysql:host=127.0.0.1;dbname=amg;charset=utf8");
 
+
 /* XML API settings */
 define("BASE_PATH", "http://api.arbetsformedlingen.se/");
 define("MATCH_PATH", "matchning?");
@@ -18,10 +19,12 @@ define("JOB_CATEGORY_PATH", "yrkesomraden");
 define("JOB_GROUP_PATH", "yrkesgrupper?yrkesomradeid=");
 define("JOB_TITLE_PATH", "yrken?yrkesgruppid=");
 
+
 /* XML API Fields and attributes (not used) */ //***********//
 define("XML_COUNTY_ID", "id");
 define("XML_COUNTY_NAME", "namn");
 define("XML_COUNTY_NODE", "sokdata");
+
 
 /* Database tables and columns */
 define("COUNTY_TABLE", "lan");
@@ -59,5 +62,14 @@ define("JOB_AD_JOB_TITLE_ID_COLUMN", "yrkesid");
 define("JOB_AD_PUBLICATION_DATE_COLUMN", "publiceraddatum");
 define("JOB_AD_POSITIONS_AVAILABLE_COLUMN", "antalplatser");
 define("JOB_AD_MUNICIPALITY_NAME_COLUMN", "kommunnamn");
+
+
+/* HTTP GET-requests */
+define("GET_ACTION_KEYWORD", "keyword");
+define("GET_ACTION_MUNICIPALITY", "municipality");
+define("GET_ACTION_COUNTY", "county");
+define("GET_ACTION_JOB_CATEGORY", "jobcategory");
+define("GET_ACTION_JOB_GROUP", "jobgroup");
+define("GET_ACTION_JOB_TITLE", "jobtitle");
 
 ?>
