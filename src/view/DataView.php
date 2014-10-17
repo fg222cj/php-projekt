@@ -29,7 +29,7 @@ class DataView {
 	public function showResult($hitCount, $keyword) {
 		$html = $this->searchForm();
 		$html .= "
-		<p>Ordet $keyword förekom i $hitCount jobbannonser.</p>
+		<p>Ordet \"$keyword\" förekom i $hitCount jobbannonser.</p>
 		";
 		
 		return $html;
