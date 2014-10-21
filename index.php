@@ -1,10 +1,15 @@
 <?php
 require_once("./config.php");
+require_once("./DatabaseRefactor.php");
 require_once("./src/view/HTMLView.php");
-require_once("./src/controller/DataController.php");
-
-$dc = new \controller\DataController();
+require_once("./src/controller/DataPresentationController.php");
+/*
+$dc = new \controller\DataPresentationController();
 $HTMLBody = $dc->doControl();
+*/
+
+$dr = new \DatabaseRefactor();
+$HTMLBody = $dr->refactor();
 
 $htmlView = new \view\HTMLView();
 $htmlView->showHTML($HTMLBody);

@@ -1,10 +1,10 @@
 <?php
 namespace controller;
 
-require_once("./src/model/DataModel.php");
-require_once("./src/view/DataView.php");
+require_once("./src/model/DataPresentationModel.php");
+require_once("./src/view/DataPresentationView.php");
 
-class DataController {
+class DataPresentationController {
 	private $dataModel;		
 	private $dataView;
 	

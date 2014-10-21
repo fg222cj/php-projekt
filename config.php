@@ -62,6 +62,10 @@ define("JOB_AD_JOB_TITLE_ID_COLUMN", "yrkesid");
 define("JOB_AD_PUBLICATION_DATE_COLUMN", "publiceraddatum");
 define("JOB_AD_POSITIONS_AVAILABLE_COLUMN", "antalplatser");
 define("JOB_AD_MUNICIPALITY_NAME_COLUMN", "kommunnamn");
+define("JOB_AD_MUNICIPALITY_ID_COLUMN_COLUMN", "kommunid");
+define("JOB_AD_COUNTY_ID_COLUMN", "lanid");
+define("JOB_AD_JOB_GROUP_ID_COLUMN", "yrkesgruppid");
+define("JOB_AD_JOB_CATEGORY_ID_COLUMN", "yrkesomradeid");
 
 
 /* HTTP GET-requests */
