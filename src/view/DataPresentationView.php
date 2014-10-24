@@ -1,7 +1,7 @@
 <?php
 namespace view;
 
-class DataView {
+class DataPresentationView {
 	public function getAction() {
 		if(isset($_GET[GET_ACTION_KEYWORD])) {
 			return GET_ACTION_KEYWORD;

@@ -60,14 +60,4 @@ class JobCategoryRepository extends Repository {
 		}
 		return $jobCategories;
  	}
-	
-	public function populateJobTables() {
-		$jobCategories = $this->getFromXML(BASE_PATH . AD_PATH . SEARCH_LIST_PATH . JOB_CATEGORY_PATH);
-		foreach($jobCategories as $jobCategory) {
-			$this->add($jobCategory);
-			
-			$this->jobGroupRepository->populateJobTables(BASE_PATH . AD_PATH . SEARCH_LIST_PATH . JOB_GROUP_PATH . $jobCategory->getJobCategoryId(), $jobCategory->getJobCategoryId());
-		}
-	}
-
 }

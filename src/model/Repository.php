@@ -20,7 +20,7 @@ abstract class Repository {
 		return $this->dbConnection;
 	}
 	
-	protected function loadXML($XMLPath) {
+	public function loadXML($XMLPath) {
 		$this->XMLPath = $XMLPath; 
 		$XMLContents = $this->get_url_contents($this->XMLPath);
 		$this->XMLElement = simplexml_load_string($XMLContents);

@@ -25,8 +25,8 @@ class JobGroupRepository extends Repository {
 	public function getFromDb($id) {
 		$db = $this->connection();
 
-		$sql = "SELECT * FROM " . JOB_GROUP_TABLE . " WHERE " . JOB_GROUP_ID_COLUMN . " = ?";
-		$params = array($unique);
+		$sql = "SELECT * FROM " . JOB_GROUP_TABLE . " WHERE " . ID_COLUMN . " = ?";
+		$params = array($id);
 
 		$query = $db->prepare($sql);
 		$query->execute($params);
@@ -34,7 +34,26 @@ class JobGroupRepository extends Repository {
 		$result = $query->fetch();
 
 		if ($result) {
-			$jobGroup = new \model\JobGroup($result[JOB_GROUP_ID_COLUMN], $result[JOB_GROUP_NAME_COLUMN]);
+			$jobGroup = new \model\JobGroup($result[ID_COLUMN], $result[JOB_GROUP_ID_COLUMN], $result[JOB_GROUP_NAME_COLUMN], $result[JOB_GROUP_JOB_CATEGORY_ID_COLUMN]);
+			return $jobGroup;
+		}
+
+		return null;
+	}
+	
+	public function getFromDbByJobGroupId($jobGroupId) {
+		$db = $this->connection();
+
+		$sql = "SELECT * FROM " . JOB_GROUP_TABLE . " WHERE " . JOB_GROUP_ID_COLUMN . " = ?";
+		$params = array($jobGroupId);
+
+		$query = $db->prepare($sql);
+		$query->execute($params);
+
+		$result = $query->fetch();
+
+		if ($result) {
+			$jobGroup = new \model\JobGroup($result[ID_COLUMN], $result[JOB_GROUP_ID_COLUMN], $result[JOB_GROUP_NAME_COLUMN], $result[JOB_GROUP_JOB_CATEGORY_ID_COLUMN]);
 			return $jobGroup;
 		}
 

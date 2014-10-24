@@ -24,7 +24,7 @@ class MunicipalityRepository extends Repository {
 		$db = $this->connection();
 
 		$sql = "SELECT * FROM " . MUNICIPALITY_TABLE . " WHERE " . MUNICIPALITY_ID_COLUMN . " = ?";
-		$params = array($unique);
+		$params = array($id);
 
 		$query = $db->prepare($sql);
 		$query -> execute($params);
@@ -32,7 +32,26 @@ class MunicipalityRepository extends Repository {
 		$result = $query->fetch();
 
 		if ($result) {
-			$municipality = new \model\Municipality($result[MUNICIPALITY_ID_COLUMN], $result[MUNICIPALITY_NAME_COLUMN]);
+			$municipality = new \model\Municipality($result[ID_COLUMN], $result[MUNICIPALITY_ID_COLUMN], $result[MUNICIPALITY_NAME_COLUMN], $result[MUNICIPALITY_COUNTY_ID_COLUMN]);
+			return $municipality;
+		}
+
+		return null;
+	}
+	
+	public function getFromDbByName($name) {
+		$db = $this->connection();
+
+		$sql = "SELECT * FROM " . MUNICIPALITY_TABLE . " WHERE " . MUNICIPALITY_NAME_COLUMN . " = ?";
+		$params = array($name);
+
+		$query = $db->prepare($sql);
+		$query -> execute($params);
+
+		$result = $query->fetch();
+
+		if ($result) {
+			$municipality = new \model\Municipality($result[ID_COLUMN], $result[MUNICIPALITY_ID_COLUMN], $result[MUNICIPALITY_NAME_COLUMN], $result[MUNICIPALITY_COUNTY_ID_COLUMN]);
 			return $municipality;
 		}
 

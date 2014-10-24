@@ -23,8 +23,8 @@ class JobTitleRepository extends Repository {
 	public function getFromDb($id) {
 		$db = $this->connection();
 
-		$sql = "SELECT * FROM " . JOB_TITLE_TABLE . " WHERE " . JOB_TITLE_ID_COLUMN . " = ?";
-		$params = array($unique);
+		$sql = "SELECT * FROM " . JOB_TITLE_TABLE . " WHERE " . ID_COLUMN . " = ?";
+		$params = array($id);
 
 		$query = $db->prepare($sql);
 		$query -> execute($params);
@@ -32,7 +32,26 @@ class JobTitleRepository extends Repository {
 		$result = $query->fetch();
 
 		if ($result) {
-			$jobTitle = new \model\JobTitle($result[JOB_TITLE_ID_COLUMN], $result[JOB_TITLE_NAME_COLUMN]);
+			$jobTitle = new \model\JobTitle($result[ID_COLUMN], $result[JOB_TITLE_ID_COLUMN], $result[JOB_TITLE_NAME_COLUMN], $result[JOB_TITLE_JOB_GROUP_ID_COLUMN]);
+			return $jobTitle;
+		}
+
+		return null;
+	}
+	
+	public function getFromDbByJobId($jobId) {
+		$db = $this->connection();
+
+		$sql = "SELECT * FROM " . JOB_TITLE_TABLE . " WHERE " . JOB_TITLE_ID_COLUMN . " = ?";
+		$params = array($jobId);
+
+		$query = $db->prepare($sql);
+		$query -> execute($params);
+
+		$result = $query->fetch();
+
+		if ($result) {
+			$jobTitle = new \model\JobTitle($result[ID_COLUMN], $result[JOB_TITLE_ID_COLUMN], $result[JOB_TITLE_NAME_COLUMN], $result[JOB_TITLE_JOB_GROUP_ID_COLUMN]);
 			return $jobTitle;
 		}
 
