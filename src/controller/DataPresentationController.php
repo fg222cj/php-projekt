@@ -3,6 +3,7 @@ namespace controller;
 
 require_once("./src/model/DataPresentationModel.php");
 require_once("./src/view/DataPresentationView.php");
+require_once("./src/model/Result.php");
 
 class DataPresentationController {
 	private $dataPresentationModel;		
@@ -14,20 +15,27 @@ class DataPresentationController {
 	}
 	
 	public function doControl() {
-		switch($this->dataPresentationView->getAction()) {
-			case GET_ACTION_KEYWORD:
-				return $this->keywordSearch($this->dataPresentationView->getKeyword());
-				break;
-				
-			default:
-				return $this->dataPresentationView->searchForm();
-				break;
+		try {
+			switch($this->dataPresentationView->getAction()) {
+				case GET_ACTION_KEYWORD:
+					return $this->keywordSearch($this->dataPresentationView->getKeyword());
+					break;
+					
+				default:
+					return $this->dataPresentationView->searchForm();
+					break;
+			}
+		}
+		
+		catch(\Exception $e) {
+			$this->dataPresentationView->setMessage($e->getMessage());
+			return $this->dataPresentationView->searchForm();
 		}
 	}
 	
 	public function keywordSearch($keyword) {
-		$hitCount = $this->dataPresentationModel->getCount($keyword);
-		return $this->dataPresentationView->showResult($hitCount, $keyword);
+		$result = $this->dataPresentationModel->getResult($keyword);
+		return $this->dataPresentationView->showResult($result);
 	}
 }
 ?>

@@ -76,8 +76,17 @@ define("GET_ACTION_JOB_CATEGORY", "jobcategory");
 define("GET_ACTION_JOB_GROUP", "jobgroup");
 define("GET_ACTION_JOB_TITLE", "jobtitle");
 
+
 /* HTTP POST-requests */
 define("POST_ACTION_SCRAPE_ADS", "scrapeads");
 define("POST_ACTION_SCRAPE_JOB_TABLES", "scrapejobtables");
+
+
+/* Error messages */
+define("ERROR_EMPTY_DATA_SET", "emptydataset");
+
+
+/* File and folder paths */
+define("FILE_PATH_GRAPHS_FOLDER", "./src/graphs/")
 
 ?>

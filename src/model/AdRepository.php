@@ -46,17 +46,60 @@ class AdRepository extends Repository {
 	
 	public function getCount($keyword, $jobTitle = null, $jobGroup = null, $jobCategory = null, $municipality = null, $county = null) {
 		$db = $this->connection();
+		$params = array();
+		$params[] = "%$keyword%";
+		
+		$additionalWhere = "";
+		
+		if(isset($jobTitle)) {
+			$additionalWhere .= " AND WHERE " . JOB_AD_JOB_TITLE_ID_COLUMN . " = ? ";
+			$params[] = $jobTitle;
+		}
+		
+		if(isset($jobGroup)) {
+			$additionalWhere .= " AND WHERE " . JOB_AD_JOB_GROUP_ID_COLUMN . " = ? ";
+			$params[] = $jobGroup;
+		}
+		
+		if(isset($jobCategory)) {
+			$additionalWhere .= " AND WHERE " . JOB_AD_JOB_CATEGORY_ID_COLUMN . " = ? ";
+			$params[] = $jobCategory;
+		}
+		
+		if(isset($municipality)) {
+			$additionalWhere .= " AND WHERE " . JOB_AD_MUNICIPALITY_ID_COLUMN . " = ? ";
+			$params[] = $municipality;
+		}
+		
+		if(isset($county)) {
+			$additionalWhere .= " AND WHERE " . JOB_AD_COUNTY_ID_COLUMN . " = ? ";
+			$params[] = $county;
+		}
 
 		$sql = "SELECT YEAR(" . JOB_AD_PUBLICATION_DATE_COLUMN . "), WEEK(" . JOB_AD_PUBLICATION_DATE_COLUMN . "), SUM(" . JOB_AD_POSITIONS_AVAILABLE_COLUMN . ") FROM " . JOB_AD_TABLE . " 
-		WHERE " . JOB_AD_TEXT_COLUMN . " LIKE ? GROUP BY YEARWEEK(" . JOB_AD_PUBLICATION_DATE_COLUMN . ") ORDER BY YEARWEEK(" . JOB_AD_PUBLICATION_DATE_COLUMN . ") ASC";
-		$params = array("%$keyword%");
-
+		WHERE " . JOB_AD_TEXT_COLUMN . " LIKE ? " . $additionalWhere . " GROUP BY YEARWEEK(" . JOB_AD_PUBLICATION_DATE_COLUMN . ") ORDER BY YEARWEEK(" . JOB_AD_PUBLICATION_DATE_COLUMN . ") ASC";
+		
 		$query = $db->prepare($sql);
 		$query->execute($params);
 
 		$result = $query->fetchAll();
 		return $result;
+	}
 
+	public function getRelatedJobTitlesData($keyword) {
+		$db = $this->connection();
+		
+		$sql = "SELECT " . JOB_AD_JOB_TITLE_ID_COLUMN . ", SUM(" . JOB_AD_POSITIONS_AVAILABLE_COLUMN . ") FROM " . JOB_AD_TABLE . " WHERE " . JOB_AD_TEXT_COLUMN . " LIKE ? 
+		GROUP BY " . JOB_AD_JOB_TITLE_ID_COLUMN . " ORDER BY SUM(" . JOB_AD_POSITIONS_AVAILABLE_COLUMN . ") DESC LIMIT 10";
+		
+		$params = array();
+		$params[] = "%$keyword%";
+		
+		$query = $db->prepare($sql);
+		$query->execute($params);
+
+		$result = $query->fetchAll();
+		return $result;
 	}
 	 
 	public function delete(\model\Ad $ad) {
