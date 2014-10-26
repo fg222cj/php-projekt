@@ -44,41 +44,64 @@ class AdRepository extends Repository {
 		return null;
 	}
 	
-	public function getCount($keyword, $jobTitle = null, $jobGroup = null, $jobCategory = null, $municipality = null, $county = null) {
+	public function getCount($keyword = null, $jobTitle = null, $jobGroup = null, $jobCategory = null, $municipality = null, $county = null) {
 		$db = $this->connection();
 		
 		$params = array();
-		$params[] = "%$keyword%";
+		$whereClauses = "WHERE ";
 		
-		$additionalWhere = "";
+		if(isset($keyword)) {
+			$whereClauses .= JOB_AD_TEXT_COLUMN . " LIKE ?";
+			$params[] = "%$keyword%";
+		}
 		
 		if(isset($jobTitle)) {
-			$additionalWhere .= " AND " . JOB_AD_JOB_TITLE_ID_COLUMN . " = ? ";
+			// if $whereClauses is not in its original state, that means there's another clause before this one. In that case we add an "AND" before the clause.
+			if($whereClauses != "WHERE ") {
+				$whereClauses .= " AND ";
+			}
+			$whereClauses .= JOB_AD_JOB_TITLE_ID_COLUMN . " = ?";
 			$params[] = $jobTitle;
 		}
 		
 		if(isset($jobGroup)) {
-			$additionalWhere .= " AND " . JOB_AD_JOB_GROUP_ID_COLUMN . " = ? ";
+			// if $whereClauses is not in its original state, that means there's another clause before this one. In that case we add an "AND" before the clause.
+			if($whereClauses != "WHERE ") {
+				$whereClauses .= " AND ";
+			}
+			$whereClauses .= JOB_AD_JOB_GROUP_ID_COLUMN . " = ?";
 			$params[] = $jobGroup;
 		}
 		
 		if(isset($jobCategory)) {
-			$additionalWhere .= " AND " . JOB_AD_JOB_CATEGORY_ID_COLUMN . " = ? ";
+			// if $whereClauses is not in its original state, that means there's another clause before this one. In that case we add an "AND" before the clause.
+			if($whereClauses != "WHERE ") {
+				$whereClauses .= " AND ";
+			}
+			$whereClauses .= JOB_AD_JOB_CATEGORY_ID_COLUMN . " = ?";
 			$params[] = $jobCategory;
 		}
 		
 		if(isset($municipality)) {
-			$additionalWhere .= " AND " . JOB_AD_MUNICIPALITY_ID_COLUMN . " = ? ";
+			// if $whereClauses is not in its original state, that means there's another clause before this one. In that case we add an "AND" before the clause.
+			if($whereClauses != "WHERE ") {
+				$whereClauses .= " AND ";
+			}
+			$whereClauses .= JOB_AD_MUNICIPALITY_ID_COLUMN . " = ?";
 			$params[] = $municipality;
 		}
 		
 		if(isset($county)) {
-			$additionalWhere .= " AND " . JOB_AD_COUNTY_ID_COLUMN . " = ? ";
+			// if $whereClauses is not in its original state, that means there's another clause before this one. In that case we add an "AND" before the clause.
+			if($whereClauses != "WHERE ") {
+				$whereClauses .= " AND ";
+			}
+			$whereClauses .= JOB_AD_COUNTY_ID_COLUMN . " = ?";
 			$params[] = $county;
 		}
 
 		$sql = "SELECT YEAR(" . JOB_AD_PUBLICATION_DATE_COLUMN . "), WEEK(" . JOB_AD_PUBLICATION_DATE_COLUMN . "), SUM(" . JOB_AD_POSITIONS_AVAILABLE_COLUMN . ") FROM " . JOB_AD_TABLE . " 
-		WHERE " . JOB_AD_TEXT_COLUMN . " LIKE ? " . $additionalWhere . " GROUP BY YEARWEEK(" . JOB_AD_PUBLICATION_DATE_COLUMN . ") ORDER BY YEARWEEK(" . JOB_AD_PUBLICATION_DATE_COLUMN . ") ASC";
+		" . $whereClauses . " GROUP BY YEARWEEK(" . JOB_AD_PUBLICATION_DATE_COLUMN . ") ORDER BY YEARWEEK(" . JOB_AD_PUBLICATION_DATE_COLUMN . ") ASC";
 		
 		$query = $db->prepare($sql);
 		$query->execute($params);
@@ -91,43 +114,156 @@ class AdRepository extends Repository {
 		$db = $this->connection();
 		
 		$params = array();
-		$params[] = "%$keyword%";
 		
-		$additionalWhere = "";
+		$whereClauses = "WHERE ";
+		
+		if(isset($keyword)) {
+			$whereClauses .= JOB_AD_TEXT_COLUMN . " LIKE ?";
+			$params[] = "%$keyword%";
+		}
 		
 		if(isset($jobTitle)) {
-			$additionalWhere .= " AND " . JOB_AD_JOB_TITLE_ID_COLUMN . " = ? ";
+			// if $whereClauses is not in its original state, that means there's another clause before this one. In that case we add an "AND" before the clause.
+			if($whereClauses != "WHERE ") {
+				$whereClauses .= " AND ";
+			}
+			$whereClauses .= JOB_AD_JOB_TITLE_ID_COLUMN . " = ?";
 			$params[] = $jobTitle;
 		}
 		
 		if(isset($jobGroup)) {
-			$additionalWhere .= " AND " . JOB_AD_JOB_GROUP_ID_COLUMN . " = ? ";
+			// if $whereClauses is not in its original state, that means there's another clause before this one. In that case we add an "AND" before the clause.
+			if($whereClauses != "WHERE ") {
+				$whereClauses .= " AND ";
+			}
+			$whereClauses .= JOB_AD_JOB_GROUP_ID_COLUMN . " = ?";
 			$params[] = $jobGroup;
 		}
 		
 		if(isset($jobCategory)) {
-			$additionalWhere .= " AND " . JOB_AD_JOB_CATEGORY_ID_COLUMN . " = ? ";
+			// if $whereClauses is not in its original state, that means there's another clause before this one. In that case we add an "AND" before the clause.
+			if($whereClauses != "WHERE ") {
+				$whereClauses .= " AND ";
+			}
+			$whereClauses .= JOB_AD_JOB_CATEGORY_ID_COLUMN . " = ?";
 			$params[] = $jobCategory;
 		}
 		
 		if(isset($municipality)) {
-			$additionalWhere .= " AND " . JOB_AD_MUNICIPALITY_ID_COLUMN . " = ? ";
+			// if $whereClauses is not in its original state, that means there's another clause before this one. In that case we add an "AND" before the clause.
+			if($whereClauses != "WHERE ") {
+				$whereClauses .= " AND ";
+			}
+			$whereClauses .= JOB_AD_MUNICIPALITY_ID_COLUMN . " = ?";
 			$params[] = $municipality;
 		}
 		
 		if(isset($county)) {
-			$additionalWhere .= " AND " . JOB_AD_COUNTY_ID_COLUMN . " = ? ";
+			// if $whereClauses is not in its original state, that means there's another clause before this one. In that case we add an "AND" before the clause.
+			if($whereClauses != "WHERE ") {
+				$whereClauses .= " AND ";
+			}
+			$whereClauses .= JOB_AD_COUNTY_ID_COLUMN . " = ?";
 			$params[] = $county;
 		}
 		
-		$sql = "SELECT " . JOB_AD_JOB_TITLE_ID_COLUMN . ", SUM(" . JOB_AD_POSITIONS_AVAILABLE_COLUMN . ") FROM " . JOB_AD_TABLE . " WHERE " . JOB_AD_TEXT_COLUMN . " LIKE ? 
-		" . $additionalWhere . " GROUP BY " . JOB_AD_JOB_TITLE_ID_COLUMN . " ORDER BY SUM(" . JOB_AD_POSITIONS_AVAILABLE_COLUMN . ") DESC LIMIT 10";
+		$sql = "SELECT " . JOB_AD_JOB_TITLE_ID_COLUMN . ", SUM(" . JOB_AD_POSITIONS_AVAILABLE_COLUMN . ") FROM " . JOB_AD_TABLE . " " . $whereClauses . " 
+		GROUP BY " . JOB_AD_JOB_TITLE_ID_COLUMN . " ORDER BY SUM(" . JOB_AD_POSITIONS_AVAILABLE_COLUMN . ") DESC LIMIT 10";
 		
 		$query = $db->prepare($sql);
 		$query->execute($params);
 
 		$result = $query->fetchAll();
 		return $result;
+	}
+
+	public function getRelatedCountiesData($keyword, $jobTitle = null, $jobGroup = null, $jobCategory = null, $municipality = null, $county = null) {
+		$db = $this->connection();
+		
+		$params = array();
+		
+		$whereClauses = "WHERE ";
+		
+		if(isset($keyword)) {
+			$whereClauses .= JOB_AD_TEXT_COLUMN . " LIKE ?";
+			$params[] = "%$keyword%";
+		}
+		
+		if(isset($jobTitle)) {
+			// if $whereClauses is not in its original state, that means there's another clause before this one. In that case we add an "AND" before the clause.
+			if($whereClauses != "WHERE ") {
+				$whereClauses .= " AND ";
+			}
+			$whereClauses .= JOB_AD_JOB_TITLE_ID_COLUMN . " = ?";
+			$params[] = $jobTitle;
+		}
+		
+		if(isset($jobGroup)) {
+			// if $whereClauses is not in its original state, that means there's another clause before this one. In that case we add an "AND" before the clause.
+			if($whereClauses != "WHERE ") {
+				$whereClauses .= " AND ";
+			}
+			$whereClauses .= JOB_AD_JOB_GROUP_ID_COLUMN . " = ?";
+			$params[] = $jobGroup;
+		}
+		
+		if(isset($jobCategory)) {
+			// if $whereClauses is not in its original state, that means there's another clause before this one. In that case we add an "AND" before the clause.
+			if($whereClauses != "WHERE ") {
+				$whereClauses .= " AND ";
+			}
+			$whereClauses .= JOB_AD_JOB_CATEGORY_ID_COLUMN . " = ?";
+			$params[] = $jobCategory;
+		}
+		
+		if(isset($municipality)) {
+			// if $whereClauses is not in its original state, that means there's another clause before this one. In that case we add an "AND" before the clause.
+			if($whereClauses != "WHERE ") {
+				$whereClauses .= " AND ";
+			}
+			$whereClauses .= JOB_AD_MUNICIPALITY_ID_COLUMN . " = ?";
+			$params[] = $municipality;
+		}
+		
+		if(isset($county)) {
+			// if $whereClauses is not in its original state, that means there's another clause before this one. In that case we add an "AND" before the clause.
+			if($whereClauses != "WHERE ") {
+				$whereClauses .= " AND ";
+			}
+			$whereClauses .= JOB_AD_COUNTY_ID_COLUMN . " = ?";
+			$params[] = $county;
+		}
+		
+		$sql = "SELECT " . JOB_AD_COUNTY_ID_COLUMN . ", SUM(" . JOB_AD_POSITIONS_AVAILABLE_COLUMN . ") FROM " . JOB_AD_TABLE . " " . $whereClauses . " 
+		GROUP BY " . JOB_AD_COUNTY_ID_COLUMN . " ORDER BY SUM(" . JOB_AD_POSITIONS_AVAILABLE_COLUMN . ") DESC LIMIT 10";
+		
+		$query = $db->prepare($sql);
+		$query->execute($params);
+
+		$result = $query->fetchAll();
+		return $result;
+	}
+
+	// Used to discern relevant keywords.
+	public function getUnsortedWordByJobCategory($jobCategoryId) {
+		$db = $this->connection();
+
+		$sql = "SELECT * FROM " . JOB_AD_TABLE . " WHERE " . ID_COLUMN . " = ?";
+		$params = array($id);
+
+		$query = $db->prepare($sql);
+		$query->execute($params);
+
+		$result = $query->fetch();
+
+		if ($result) {
+			$ad = new \model\Ad($result[ID_COLUMN], $result[JOB_AD_ID_COLUMN], $result[JOB_AD_HEADING_COLUMN], $result[JOB_AD_TEXT_COLUMN], $result[JOB_AD_TITLE_COLUMN], 
+			$result[JOB_AD_JOB_TITLE_ID_COLUMN], $result[JOB_AD_PUBLICATION_DATE_COLUMN], $result[JOB_AD_POSITIONS_AVAILABLE_COLUMN], $result[JOB_AD_MUNICIPALITY_NAME_COLUMN], 
+			$result[JOB_AD_MUNICIPALITY_ID_COLUMN], $result[JOB_AD_COUNTY_ID_COLUMN], $result[JOB_AD_JOB_GROUP_ID_COLUMN], $result[JOB_AD_JOB_CATEGORY_ID_COLUMN]);
+			return $ad;
+		}
+
+		return null;
 	}
 	 
 	public function delete(\model\Ad $ad) {

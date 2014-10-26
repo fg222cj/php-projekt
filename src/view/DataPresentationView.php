@@ -6,12 +6,28 @@ require_once("./src/model/Result.php");
 class DataPresentationView {
 	private $message = "";
 	private $dataPresentationModel;
+	private $keyword;
+	private $county;
+	private $municipality;
+	private $jobCategory;
+	private $jobGroup;
+	private $jobTitle;
 	
 	public function __construct($dataPresentationModel) {
 		$this->dataPresentationModel = $dataPresentationModel;
+		$this->keyword = $this->getKeyword();
+		$this->county = $this->getCounty();
+		$this->municipality = $this->getMunicipality();
+		$this->jobCategory = $this->getJobCategory();
+		$this->jobGroup = $this->getJobGroup();
+		$this->jobTitle = $this->getJobTitle();
 	}
 	
 	public function getAction() {
+		if(isset($_GET[GET_ACTION_SEARCH])) {
+			return GET_ACTION_SEARCH;
+		}
+		
 		if(isset($_GET[GET_ACTION_KEYWORD]) && $_GET[GET_ACTION_KEYWORD] != "") {
 			return GET_ACTION_KEYWORD;
 		}
@@ -42,36 +58,60 @@ class DataPresentationView {
 	}
 	
 	public function getKeyword() {
+		if(isset($this->keyword)) {
+			return $this->keyword;
+		}
+		
 		if(isset($_GET[GET_ACTION_KEYWORD]) && $_GET[GET_ACTION_KEYWORD] != "") {
 			return $_GET[GET_ACTION_KEYWORD];
 		}
 	}
 	
 	public function getCounty() {
+		if(isset($this->county)) {
+			return $this->county;
+		}
+		
 		if(isset($_GET[GET_ACTION_COUNTY]) && $_GET[GET_ACTION_COUNTY] != 0) {
 			return $_GET[GET_ACTION_COUNTY];
 		}
 	}
 	
 	public function getMunicipality() {
+		if(isset($this->municipality)) {
+			return $this->municipality;
+		}
+		
 		if(isset($_GET[GET_ACTION_MUNICIPALITY]) && $_GET[GET_ACTION_MUNICIPALITY] != 0) {
 			return $_GET[GET_ACTION_MUNICIPALITY];
 		}
 	}
 	
 	public function getJobCategory() {
+		if(isset($this->jobCategory)) {
+			return $this->jobCategory;
+		}
+		
 		if(isset($_GET[GET_ACTION_JOB_CATEGORY]) && $_GET[GET_ACTION_JOB_CATEGORY] != 0) {
 			return $_GET[GET_ACTION_JOB_CATEGORY];
 		}
 	}
 	
 	public function getJobGroup() {
+		if(isset($this->jobGroup)) {
+			return $this->jobGroup;
+		}
+		
 		if(isset($_GET[GET_ACTION_JOB_GROUP]) && $_GET[GET_ACTION_JOB_GROUP] != 0) {
 			return $_GET[GET_ACTION_JOB_GROUP];
 		}
 	}
 	
 	public function getJobTitle() {
+		if(isset($this->jobTitle)) {
+			return $this->jobTitle;
+		}
+		
 		if(isset($_GET[GET_ACTION_JOB_TITLE]) && $_GET[GET_ACTION_JOB_TITLE] != 0) {
 			return $_GET[GET_ACTION_JOB_TITLE];
 		}
@@ -158,7 +198,7 @@ class DataPresentationView {
 		$jobTitles = $this->dataPresentationModel->getJobTitles($jobGroupId);
 		
 		foreach($jobTitles as $jobTitle) {
-			if($this->getMunicipality() == $jobTitle->getJobTitleId()) {
+			if($this->getJobTitle() == $jobTitle->getJobTitleId()) {
 				$jobTitleOptions .= "<option value='" . $jobTitle->getJobTitleId() . "' selected>" . $jobTitle->getName() . "</option>";
 			}
 			else {
@@ -205,7 +245,7 @@ class DataPresentationView {
 					$jobTitleOptions
 				</select>
 				<br />
-				<input type='submit' value='Sök'>
+				<button type='submit' name='" . GET_ACTION_SEARCH . "' type='submit'>Sök</button>
 			</fieldset>
 		</form>
 		";
@@ -216,9 +256,11 @@ class DataPresentationView {
 	public function showResult($result) {
 		$html = $this->searchForm();
 		
-		$html .= "
-		<h3>\"" . $result->getKeyword() . "\"</h3>
-		";
+		if($result->getKeyword() !== null) {
+			$html .= "
+			<h3>\"" . $result->getKeyword() . "\"</h3>
+			";
+		}
 		
 		foreach($result->getGraphs() as $graph) {
 			$html .= "
@@ -227,15 +269,54 @@ class DataPresentationView {
 			";
 		}
 		
-		if($result->getRelatedJobTitles() !== null) {
+		if(count($result->getRelatedJobTitles()) > 1) {
+			$heading = "Topp 10 jobb";
+			
+			if(count($result->getRelatedCounties()) == 1) {
+				$heading .= " i " . $result->getRelatedCounties()[0][0]->getName() ;
+			}
+			
+			if($result->getKeyword() !== null) {
+				$heading .= " som efterfrågar \"" . $result->getKeyword() . "\"";
+			}
+			
 			$html .= "
+			<h4>$heading</h4>
 			<table>
 			";
 			foreach($result->getRelatedJobTitles() as $jobTitle) {
 				$html .= "
 					<tr>
-						<td>" . $jobTitle[0]->getName() . "</td>
+						<td><a href='?" . GET_ACTION_JOB_TITLE . "=" . $jobTitle[0]->getJobTitleId() . "&" . GET_ACTION_SEARCH . "'>" . $jobTitle[0]->getName() . "</a></td>
 						<td>" . $jobTitle[1] . "</td>
+					</tr>
+					";
+			}
+			$html .= "
+			</table>
+			";
+		}
+
+		if(count($result->getRelatedCounties()) > 1) {
+			$heading = "Topp 10 län";
+			
+			if($result->getKeyword() !== null) {
+				$heading .= " som efterfrågar \"" . $result->getKeyword() . "\"";
+			}
+			
+			if(count($result->getRelatedJobTitles()) == 1) {
+				$heading .= " bland " . $result->getRelatedJobTitles()[0][0]->getName() ;
+			}
+			
+			$html .= "
+			<h4>$heading</h4>
+			<table>
+			";
+			foreach($result->getRelatedCounties() as $county) {
+				$html .= "
+					<tr>
+						<td><a href='?" . GET_ACTION_COUNTY . "=" . $county[0]->getCountyId() . "&" . GET_ACTION_SEARCH . "'>" . $county[0]->getName() . "</a></td>
+						<td>" . $county[1] . "</td>
 					</tr>
 					";
 			}

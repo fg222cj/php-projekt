@@ -3,7 +3,14 @@
 /* Database settings */
 define("DB_USERNAME", "root");
 define("DB_PASSWORD", "");
+
 define("DB_CONNECTION", "mysql:host=127.0.0.1;dbname=amg;charset=utf8");
+
+
+/* Local settings */
+// Local system paths. Remember to escape backslashes on windows systems.
+define("PHP_EXECUTE_FILE_PATH", "php -f");
+define("BASE_ABSOLUTE_PATH", "/home/foss/public_html/amg/");
 
 
 /* XML API settings */
@@ -33,6 +40,8 @@ define("JOB_CATEGORY_TABLE", "yrkesomraden");
 define("JOB_GROUP_TABLE", "yrkesgrupper");
 define("JOB_TITLE_TABLE", "yrken");
 define("JOB_AD_TABLE", "platsannonser");
+define("SCRAPE_LOG_TABLE", "scrapelog");
+define("KEYWORD_TABLE", "keyword");
 
 define("ID_COLUMN", "id");
 
@@ -67,30 +76,49 @@ define("JOB_AD_COUNTY_ID_COLUMN", "lanid");
 define("JOB_AD_JOB_GROUP_ID_COLUMN", "yrkesgruppid");
 define("JOB_AD_JOB_CATEGORY_ID_COLUMN", "yrkesomradeid");
 
+define("SCRAPE_LOG_TABLE_NAME_COLUMN", "tablename");
+define("SCRAPE_LOG_METHOD_COLUMN", "method");
+define("SCRAPE_LOG_NEW_RECORDS_COLUMN", "newrecords");
+define("SCRAPE_LOG_STARTED_AT_COLUMN", "startedat");
+define("SCRAPE_LOG_FINISHED_AT_COLUMN", "finishedat");
+
+define("KEYWORD_NAME", "keyword");
+define("KEYWORD_RELEVANT", "relevant");
+define("KEYWORD_JOB_CATEGORY_ID", "jobcategoryid");
 
 /* HTTP GET-requests */
+define("GET_ACTION_SEARCH", "search");
 define("GET_ACTION_KEYWORD", "keyword");
-define("GET_ACTION_MUNICIPALITY", "municipality"); 	// If value is changed, related javascript(s) may also need to be edited.
-define("GET_ACTION_COUNTY", "county");				// If value is changed, related javascript(s) may also need to be edited.
-define("GET_ACTION_JOB_CATEGORY", "jobcategory");	// If value is changed, related javascript(s) may also need to be edited.
-define("GET_ACTION_JOB_GROUP", "jobgroup");			// If value is changed, related javascript(s) may also need to be edited.
-define("GET_ACTION_JOB_TITLE", "jobtitle");			// If value is changed, related javascript(s) may also need to be edited.
-define("GET_ACTION_OPTIONS", "options");			// If value is changed, related javascript(s) may also need to be edited.
-define("GET_ACTION_OPTIONS_ID", "optionid");		// If value is changed, related javascript(s) may also need to be edited.
-define("GET_VALUE_OPTIONS_MUNICIPALITIES", "municipalities");
+define("GET_ACTION_MUNICIPALITY", "municipality"); 	// If this value is changed, related javascript(s) may also need to be edited.
+define("GET_ACTION_COUNTY", "county");				// If this value is changed, related javascript(s) may also need to be edited.
+define("GET_ACTION_JOB_CATEGORY", "jobcategory");	// If this value is changed, related javascript(s) may also need to be edited.
+define("GET_ACTION_JOB_GROUP", "jobgroup");			// If this value is changed, related javascript(s) may also need to be edited.
+define("GET_ACTION_JOB_TITLE", "jobtitle");			// If this value is changed, related javascript(s) may also need to be edited.
+define("GET_ACTION_OPTIONS", "options");			// If this value is changed, related javascript(s) may also need to be edited.
+define("GET_ACTION_OPTIONS_ID", "optionid");		// If this value is changed, related javascript(s) may also need to be edited.
+define("GET_ACTION_ADMIN", "admin");
 
 
 /* HTTP POST-requests */
 define("POST_ACTION_SCRAPE_ADS", "scrapeads");
 define("POST_ACTION_SCRAPE_JOB_TABLES", "scrapejobtables");
+define("POST_ACTION_SCRAPE_REGION_TABLES", "scraperegiontables");
+define("POST_ACTION_DEFINE_KEYWORD_NO", "definekeywordno");
+define("POST_ACTION_DEFINE_KEYWORD_YES", "definekeywordyes");
+define("POST_ACTION_DEFINE_KEYWORD", "definekeyword");
+define("POST_ACTION_DEFINE_KEYWORD_JOB_CATEGORY", "definecategory");
 
 
 /* Error messages */
 define("ERROR_EMPTY_DATA_SET", "emptydataset");
+define("ERROR_UPDATE_IN_PROGRESS", "updateinprogress");
 
 
 /* File and folder paths */
 define("FILE_PATH_GRAPHS_FOLDER", "./src/graphs/");
 define("FILE_PATH_JS_AJAX", "./src/js/AJAX.js");
+define("FILE_PATH_TASK_UPDATE_ADS", "UpdateAdTable.php");
+define("FILE_PATH_TASK_UPDATE_JOBS", "UpdateJobTables.php");
+define("FILE_PATH_TASK_UPDATE_REGIONS", "UpdateRegionTables.php");
 
 ?>

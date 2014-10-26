@@ -10,34 +10,33 @@ class DataScrapeController {
 	
 	public function __construct() {
 		$this->dataScrapeModel = new \model\DataScrapeModel();
-		$this->dataScrapeView = new \view\DataScrapeView();
+		$this->dataScrapeView = new \view\DataScrapeView($this->dataScrapeModel);
 	}
 	
 	public function doControl() {
-		switch($this->dataScrapeView->getAction()) {
-			case POST_ACTION_SCRAPE_ADS:
-				return $this->scrapeJobAds();
-				break;
-				
-			case POST_ACTION_SCRAPE_JOB_TABLES:
-				return $this->scrapeJobTables();
-				break;
-				
-			default:
-				return $this->dataScrapeView->adminForm();
-				break;
+		try {
+			switch($this->dataScrapeView->getAction()) {
+				case POST_ACTION_SCRAPE_ADS:
+					$this->dataScrapeModel->beginTaskUpdateAdTable();
+					break;
+					
+				case POST_ACTION_SCRAPE_JOB_TABLES:
+					$this->dataScrapeModel->beginTaskUpdateJobTables();
+					break;
+					
+				case POST_ACTION_SCRAPE_REGION_TABLES:
+					$this->dataScrapeModel->beginTaskUpdateRegionTables();
+					break;
+			}
 		}
+		
+		catch(\Exception $e) {
+			$this->dataScrapeView->setMessage($e->getMessage());
+		}
+		
+		return $this->dataScrapeView->adminForm();
 	}
-	
-	public function scrapeJobAds() {
-		$this->dataScrapeModel->populateAdTable();
-		return "klar!";
-	}
-	
-	public function scrapeJobTables() {
-		$this->dataScrapeModel->populateJobTables();
-		return "uppdaterat jobb-tjofräs!";
-	}
+
 }
 
 ?>

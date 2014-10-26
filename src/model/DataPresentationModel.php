@@ -29,6 +29,8 @@ class DataPresentationModel {
 	
 	public function getResult($keyword = null, $jobTitle = null, $jobGroup = null, $jobCategory = null, $municipality = null, $county = null) {
 		$graphs = array();
+		$relatedJobTitles = null;
+		$relatedCounties = null;
 		
 		if(isset($keyword)) {
 			$keywordData = array();
@@ -42,22 +44,31 @@ class DataPresentationModel {
 			
 			$filepath = $this->createGraph($keyword, $keywordData);
 			$graphs[] = $filepath;
-			
-			$jobTitleData = array();
-			
-			$relatedJobTitlesData = array();
-			$relatedJobTitlesData = $this->adRepository->getRelatedJobTitlesData($keyword, $jobTitle, $jobGroup, $jobCategory, $municipality, $county);
-			if(!empty($relatedJobTitlesData)) {
-				$relatedJobTitles = array();
-				foreach($relatedJobTitlesData as $data) {
-					$relatedJobTitle = $this->jobTitleRepository->getFromDbByJobId($data[0]);
-					$relatedJobTitles[] = array($relatedJobTitle, $data[1]);
-				}
-			}
-			
 		}
 		
-		$result = new \model\Result($keyword, $graphs, null, $relatedJobTitles);
+		$jobTitleData = array();
+		$relatedJobTitlesData = array();
+		$relatedJobTitlesData = $this->adRepository->getRelatedJobTitlesData($keyword, $jobTitle, $jobGroup, $jobCategory, $municipality, $county);
+		if(!empty($relatedJobTitlesData)) {
+			$relatedJobTitles = array();
+			foreach($relatedJobTitlesData as $data) {
+				$relatedJobTitle = $this->jobTitleRepository->getFromDbByJobId($data[0]);
+				$relatedJobTitles[] = array($relatedJobTitle, $data[1]);
+			}
+		}
+		
+		$countyData = array();
+		$relatedCountiesData = array();
+		$relatedCountiesData = $this->adRepository->getRelatedCountiesData($keyword, $jobTitle, $jobGroup, $jobCategory, $municipality, $county);
+		if(!empty($relatedCountiesData)) {
+			$relatedCounties = array();
+			foreach($relatedCountiesData as $data) {
+				$relatedCounty = $this->countyRepository->getFromDbByCountyId($data[0]);
+				$relatedCounties[] = array($relatedCounty, $data[1]);
+			}
+		}
+		
+		$result = new \model\Result($keyword, $graphs, null, $relatedJobTitles, null, null, $relatedCounties);
 		
 		return $result;
 	}

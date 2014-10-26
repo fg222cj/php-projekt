@@ -17,7 +17,7 @@ class DataPresentationController {
 	public function doControl() {
 		try {
 			switch($this->dataPresentationView->getAction()) {
-				case GET_ACTION_KEYWORD:
+				case GET_ACTION_SEARCH:
 					return $this->keywordSearch($this->dataPresentationView->getKeyword(), $this->dataPresentationView->getJobTitle(), 
 					$this->dataPresentationView->getJobGroup(), $this->dataPresentationView->getJobCategory(), $this->dataPresentationView->getMunicipality(), 
 					$this->dataPresentationView->getCounty());

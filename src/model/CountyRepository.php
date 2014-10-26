@@ -44,8 +44,8 @@ class CountyRepository extends Repository {
 	public function getFromDb($id) {
 		$db = $this->connection();
 
-		$sql = "SELECT * FROM " . COUNTY_TABLE . " WHERE " . COUNTY_ID_COLUMN . " = ?";
-		$params = array($unique);
+		$sql = "SELECT * FROM " . COUNTY_TABLE . " WHERE " . ID_COLUMN . " = ?";
+		$params = array($id);
 
 		$query = $db->prepare($sql);
 		$query->execute($params);
@@ -53,7 +53,26 @@ class CountyRepository extends Repository {
 		$result = $query->fetch();
 
 		if ($result) {
-			$county = new \model\County($result[COUNTY_ID_COLUMN], $result[COUNTY_NAME_COLUMN]);
+			$county = new \model\County($result[ID_COLUMN], $result[COUNTY_ID_COLUMN], $result[COUNTY_NAME_COLUMN]);
+			return $county;
+		}
+
+		return null;
+	}
+	
+	public function getFromDbByCountyId($id) {
+		$db = $this->connection();
+
+		$sql = "SELECT * FROM " . COUNTY_TABLE . " WHERE " . COUNTY_ID_COLUMN . " = ?";
+		$params = array($id);
+
+		$query = $db->prepare($sql);
+		$query->execute($params);
+
+		$result = $query->fetch();
+
+		if ($result) {
+			$county = new \model\County($result[ID_COLUMN], $result[COUNTY_ID_COLUMN], $result[COUNTY_NAME_COLUMN]);
 			return $county;
 		}
 
@@ -79,18 +98,4 @@ class CountyRepository extends Repository {
 		}
 		return $counties;
  	}
-	
-	public function populateCountiesAndMunicipalities() {
-		$counties = $this->getFromXML(BASE_PATH . AD_PATH . SEARCH_LIST_PATH . COUNTY_PATH);
-		foreach($counties as $county) {
-			$this->add($county);
-			
-			$municipalities = $this->municipalityRepository->getFromXML(BASE_PATH . AD_PATH . SEARCH_LIST_PATH . MUNICIPALITY_PATH . $county->getCountyId(), $county->getCountyId());
-			
-			foreach($municipalities as $municipality) {
-				$this->municipalityRepository->add($municipality);
-			}
-		}
-	}
-
 }

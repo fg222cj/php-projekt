@@ -26,7 +26,7 @@ class JobCategoryRepository extends Repository {
 		$db = $this->connection();
 
 		$sql = "SELECT * FROM " . JOB_CATEGORY_TABLE . " WHERE " . JOB_CATEGORY_ID_COLUMN . " = ?";
-		$params = array($unique);
+		$params = array($id);
 
 		$query = $db->prepare($sql);
 		$query->execute($params);
