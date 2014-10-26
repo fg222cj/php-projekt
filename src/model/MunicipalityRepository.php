@@ -78,6 +78,20 @@ class MunicipalityRepository extends Repository {
 		return $municipalities;
 	}
 	
+	public function getCountyIdFromDbByMunicipalityId($municipalityId) {
+		$db = $this->connection();
+
+		$sql = "SELECT " . MUNICIPALITY_COUNTY_ID_COLUMN . " FROM " . MUNICIPALITY_TABLE . " WHERE " . MUNICIPALITY_ID_COLUMN . " = ? LIMIT 1";
+		$params = array($municipalityId);
+
+		$query = $db->prepare($sql);
+		$query -> execute($params);
+
+		$result = $query->fetch();
+
+		return $result[0];
+	}
+	
 	public function getFromDbByName($name) {
 		$db = $this->connection();
 

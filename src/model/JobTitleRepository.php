@@ -77,6 +77,20 @@ class JobTitleRepository extends Repository {
 
 		return null;
 	}
+	
+	public function getJobGroupIdFromDbByJobTitleId($jobTitleId) {
+		$db = $this->connection();
+
+		$sql = "SELECT " . JOB_TITLE_JOB_GROUP_ID_COLUMN . " FROM " . JOB_TITLE_TABLE . " WHERE " . JOB_TITLE_ID_COLUMN . " = ? LIMIT 1";
+		$params = array($jobTitleId);
+
+		$query = $db->prepare($sql);
+		$query -> execute($params);
+
+		$result = $query->fetch();
+
+		return $result[0];
+	}
 	 
 	public function delete(\model\JobTitle $jobTitle) {
 		$db = $this->connection();

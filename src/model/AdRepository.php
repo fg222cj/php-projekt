@@ -99,6 +99,11 @@ class AdRepository extends Repository {
 			$whereClauses .= JOB_AD_COUNTY_ID_COLUMN . " = ?";
 			$params[] = $county;
 		}
+		
+		// If there aren't any clauses in the request we clear this string before it's put into the sql query.
+		if($whereClauses == "WHERE ") {
+			$whereClauses = "";
+		}
 
 		$sql = "SELECT YEAR(" . JOB_AD_PUBLICATION_DATE_COLUMN . "), WEEK(" . JOB_AD_PUBLICATION_DATE_COLUMN . "), SUM(" . JOB_AD_POSITIONS_AVAILABLE_COLUMN . ") FROM " . JOB_AD_TABLE . " 
 		" . $whereClauses . " GROUP BY YEARWEEK(" . JOB_AD_PUBLICATION_DATE_COLUMN . ") ORDER BY YEARWEEK(" . JOB_AD_PUBLICATION_DATE_COLUMN . ") ASC";
@@ -110,7 +115,7 @@ class AdRepository extends Repository {
 		return $result;
 	}
 
-	public function getRelatedJobTitlesData($keyword, $jobTitle = null, $jobGroup = null, $jobCategory = null, $municipality = null, $county = null) {
+	public function getRelatedJobTitlesData($keyword = null, $jobTitle = null, $jobGroup = null, $jobCategory = null, $municipality = null, $county = null) {
 		$db = $this->connection();
 		
 		$params = array();
@@ -165,6 +170,11 @@ class AdRepository extends Repository {
 			}
 			$whereClauses .= JOB_AD_COUNTY_ID_COLUMN . " = ?";
 			$params[] = $county;
+		}
+		
+		// If there aren't any clauses in the request we clear this string before it's put into the sql query.
+		if($whereClauses == "WHERE ") {
+			$whereClauses = "";
 		}
 		
 		$sql = "SELECT " . JOB_AD_JOB_TITLE_ID_COLUMN . ", SUM(" . JOB_AD_POSITIONS_AVAILABLE_COLUMN . ") FROM " . JOB_AD_TABLE . " " . $whereClauses . " 
@@ -177,7 +187,7 @@ class AdRepository extends Repository {
 		return $result;
 	}
 
-	public function getRelatedCountiesData($keyword, $jobTitle = null, $jobGroup = null, $jobCategory = null, $municipality = null, $county = null) {
+	public function getRelatedCountiesData($keyword = null, $jobTitle = null, $jobGroup = null, $jobCategory = null, $municipality = null, $county = null) {
 		$db = $this->connection();
 		
 		$params = array();
@@ -232,6 +242,11 @@ class AdRepository extends Repository {
 			}
 			$whereClauses .= JOB_AD_COUNTY_ID_COLUMN . " = ?";
 			$params[] = $county;
+		}
+		
+		// If there aren't any clauses in the request we clear this string before it's put into the sql query.
+		if($whereClauses == "WHERE ") {
+			$whereClauses = "";
 		}
 		
 		$sql = "SELECT " . JOB_AD_COUNTY_ID_COLUMN . ", SUM(" . JOB_AD_POSITIONS_AVAILABLE_COLUMN . ") FROM " . JOB_AD_TABLE . " " . $whereClauses . " 

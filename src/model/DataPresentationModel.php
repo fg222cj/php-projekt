@@ -27,6 +27,7 @@ class DataPresentationModel {
 		$this->municipalityRepository = new \model\MunicipalityRepository();
 	}
 	
+	// Generates a \model\Result based on user's search inputs.
 	public function getResult($keyword = null, $jobTitle = null, $jobGroup = null, $jobCategory = null, $municipality = null, $county = null) {
 		$graphs = array();
 		$relatedJobTitles = null;
@@ -36,7 +37,7 @@ class DataPresentationModel {
 			$keywordData = array();
 			$hitCount = $this->keywordSearch($keyword, $jobTitle, $jobGroup, $jobCategory, $municipality, $county);
 			
-			// Use gathered data to create an array that's actually useful.
+			// Use gathered data to create an array that's actually useful for making a graph.
 			foreach($hitCount as $week) {
 				$key = $week[0] . "-" . $week[1];
 				$keywordData[$key] = $week[2];
@@ -46,6 +47,7 @@ class DataPresentationModel {
 			$graphs[] = $filepath;
 		}
 		
+		// Fetch related job title data.
 		$jobTitleData = array();
 		$relatedJobTitlesData = array();
 		$relatedJobTitlesData = $this->adRepository->getRelatedJobTitlesData($keyword, $jobTitle, $jobGroup, $jobCategory, $municipality, $county);
@@ -57,6 +59,7 @@ class DataPresentationModel {
 			}
 		}
 		
+		// Fetch related county data.
 		$countyData = array();
 		$relatedCountiesData = array();
 		$relatedCountiesData = $this->adRepository->getRelatedCountiesData($keyword, $jobTitle, $jobGroup, $jobCategory, $municipality, $county);
@@ -93,6 +96,18 @@ class DataPresentationModel {
 		return $this->jobTitleRepository->getFromDbByJobGroup($jobGroupId);
 	}
 	
+	public function getCountyId($municipalityId) {
+		return $this->municipalityRepository->getCountyIdFromDbByMunicipalityId($municipalityId);
+	}
+	
+	public function getJobCategoryId($jobGroupId) {
+		return $this->jobGroupRepository->getJobCategoryIdFromDbByJobGroupId($jobGroupId);
+	}
+	
+	public function getJobGroupId($jobTitleId) {
+		return $this->jobTitleRepository->getJobGroupIdFromDbByJobTitleId($jobTitleId);
+	}
+	
 	public function keywordSearch($keyword = null, $jobTitle = null, $jobGroup = null, $jobCategory = null, $municipality = null, $county = null) {
 		$hitCount = $this->adRepository->getCount($keyword, $jobTitle, $jobGroup, $jobCategory, $municipality, $county);
 		return $hitCount;
@@ -117,9 +132,9 @@ class DataPresentationModel {
 		
 		$graph = new \PHPGraphLib(1200,400, $filepath);
 		$graph->addData($data);
-		$graph->setTitle($title);
+		//$graph->setTitle($title);
 		$graph->setXValuesHorizontal(true);
-		$graph->setBars(true);
+		//$graph->setBars(true);
 		$graph->setLine(true);
 		$graph->setDataPoints(true);
 		$graph->setDataPointColor('maroon');

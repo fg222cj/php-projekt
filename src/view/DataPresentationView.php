@@ -23,6 +23,7 @@ class DataPresentationView {
 		$this->jobTitle = $this->getJobTitle();
 	}
 	
+	// Getters
 	public function getAction() {
 		if(isset($_GET[GET_ACTION_SEARCH])) {
 			return GET_ACTION_SEARCH;
@@ -77,6 +78,10 @@ class DataPresentationView {
 		}
 	}
 	
+	public function setCounty($countyId) {
+		$this->county = $countyId;
+	}
+	
 	public function getMunicipality() {
 		if(isset($this->municipality)) {
 			return $this->municipality;
@@ -97,6 +102,10 @@ class DataPresentationView {
 		}
 	}
 	
+	public function setJobCategory($jobCategoryId) {
+		$this->jobCategory = $jobCategoryId;
+	}
+	
 	public function getJobGroup() {
 		if(isset($this->jobGroup)) {
 			return $this->jobGroup;
@@ -105,6 +114,10 @@ class DataPresentationView {
 		if(isset($_GET[GET_ACTION_JOB_GROUP]) && $_GET[GET_ACTION_JOB_GROUP] != 0) {
 			return $_GET[GET_ACTION_JOB_GROUP];
 		}
+	}
+	
+	public function setJobGroup($jobGroupId) {
+		$this->jobGroup = $jobGroupId;
 	}
 	
 	public function getJobTitle() {
@@ -117,6 +130,7 @@ class DataPresentationView {
 		}
 	}
 	
+	// getOption is used to populate our dropdown inputs using AJAX.
 	public function getOption() {
 		if(isset($_GET[GET_ACTION_OPTIONS]) && $_GET[GET_ACTION_OPTIONS] != "") {
 			return $_GET[GET_ACTION_OPTIONS];
@@ -129,6 +143,7 @@ class DataPresentationView {
 		}
 	}
 	
+	// Populate our dropdown inputs.
 	public function getCountyOptions() {
 		$countyOptions = "<option value='0'>Alla län</option>";
 		$counties = $this->dataPresentationModel->getCounties();
@@ -145,6 +160,7 @@ class DataPresentationView {
 		return $countyOptions;
 	}
 	
+	// Populate our dropdown inputs.
 	public function getMunicipalityOptions($countyId = 0) {
 		$municipalityOptions = "<option value='0'>Alla kommuner</option>";
 		$municipalities = $this->dataPresentationModel->getMunicipalities($countyId);
@@ -161,6 +177,7 @@ class DataPresentationView {
 		return $municipalityOptions;
 	}
 	
+	// Populate our dropdown inputs.
 	public function getJobCategoryOptions() {
 		$jobCategoryOptions = "<option value='0'>Alla yrkeskategorier</option>";
 		$jobCategories = $this->dataPresentationModel->getJobCategories();
@@ -177,6 +194,7 @@ class DataPresentationView {
 		return $jobCategoryOptions;
 	}
 	
+	// Populate our dropdown inputs.
 	public function getJobGroupOptions($jobCategoryId = 0) {
 		$jobGroupOptions = "<option value='0'>Alla yrkesgrupper</option>";
 		$jobGroups = $this->dataPresentationModel->getJobGroups($jobCategoryId);
@@ -193,6 +211,7 @@ class DataPresentationView {
 		return $jobGroupOptions;
 	}
 	
+	// Populate our dropdown inputs.
 	public function getJobTitleOptions($jobGroupId = 0) {
 		$jobTitleOptions = "<option value='0'>Alla yrken</option>";
 		$jobTitles = $this->dataPresentationModel->getJobTitles($jobGroupId);
@@ -210,6 +229,7 @@ class DataPresentationView {
 	}
 	
 	public function searchForm() {
+		// Get all dropdown options.
 		$countyOptions = $this->getCountyOptions();
 		$municipalityOptions = $this->getMunicipalityOptions($this->getCounty());
 		$jobCategoryOptions = $this->getJobCategoryOptions();
@@ -253,15 +273,18 @@ class DataPresentationView {
 		return $html;
 	}
 	
+	// Displays search results. Requires an object of type \model\Result.
 	public function showResult($result) {
 		$html = $this->searchForm();
 		
+		// Show keyword if applicable.
 		if($result->getKeyword() !== null) {
 			$html .= "
 			<h3>\"" . $result->getKeyword() . "\"</h3>
 			";
 		}
 		
+		// Show graphs if there are any.
 		foreach($result->getGraphs() as $graph) {
 			$html .= "
 			<img src='$graph' />
@@ -269,13 +292,16 @@ class DataPresentationView {
 			";
 		}
 		
+		// Show a neat table containing top 10 job titles in the chosen area and/or with chosen keyword.
 		if(count($result->getRelatedJobTitles()) > 1) {
 			$heading = "Topp 10 jobb";
 			
+			// If there's only one county that means the user selected it specifically. Let's include its name in the heading.
 			if(count($result->getRelatedCounties()) == 1) {
 				$heading .= " i " . $result->getRelatedCounties()[0][0]->getName() ;
 			}
 			
+			// If there's a keyword in the search we include that in the heading as well.
 			if($result->getKeyword() !== null) {
 				$heading .= " som efterfrågar \"" . $result->getKeyword() . "\"";
 			}
@@ -284,6 +310,7 @@ class DataPresentationView {
 			<h4>$heading</h4>
 			<table>
 			";
+			
 			foreach($result->getRelatedJobTitles() as $jobTitle) {
 				$html .= "
 					<tr>
@@ -296,16 +323,22 @@ class DataPresentationView {
 			</table>
 			";
 		}
-
+		
+		// Show a neat table containing top 10 areas where jobs with this keyword are in demand.
 		if(count($result->getRelatedCounties()) > 1) {
 			$heading = "Topp 10 län";
 			
+			// If there's a keyword in the search we include that in the heading.
 			if($result->getKeyword() !== null) {
 				$heading .= " som efterfrågar \"" . $result->getKeyword() . "\"";
 			}
 			
-			if(count($result->getRelatedJobTitles()) == 1) {
-				$heading .= " bland " . $result->getRelatedJobTitles()[0][0]->getName() ;
+			// Show job title in heading if relevant, change text depending on if there's a keyword in the mix or not.
+			if(count($result->getRelatedJobTitles()) == 1 && $result->getKeyword() !== null) {
+				$heading .= " bland " . $result->getRelatedJobTitles()[0][0]->getName();
+			}
+			else if(count($result->getRelatedJobTitles()) == 1) {
+				$heading .= " efterfrågar " . $result->getRelatedJobTitles()[0][0]->getName();
 			}
 			
 			$html .= "
@@ -328,6 +361,7 @@ class DataPresentationView {
 		return $html;
 	}
 
+	// Fetches options for dropdown-lists and echoes them directly. Used for AJAX-fetching.
 	public function showOptions() {
 		$options = "";
 		switch($this->getOption()) {
@@ -344,6 +378,7 @@ class DataPresentationView {
 		echo $options;
 	}
 	
+	// Sets a message that is shown to the user.
 	public function setMessage($message) {
 		switch($message) {
 			case ERROR_EMPTY_DATA_SET:

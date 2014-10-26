@@ -79,6 +79,20 @@ class JobGroupRepository extends Repository {
 
 		return null;
 	}
+	
+	public function getJobCategoryIdFromDbByJobGroupId($jobGroupId) {
+		$db = $this->connection();
+
+		$sql = "SELECT " . JOB_GROUP_JOB_CATEGORY_ID_COLUMN . " FROM " . JOB_GROUP_TABLE . " WHERE " . JOB_GROUP_ID_COLUMN . " = ? LIMIT 1";
+		$params = array($jobGroupId);
+
+		$query = $db->prepare($sql);
+		$query -> execute($params);
+
+		$result = $query->fetch();
+
+		return $result[0];
+	}
 	 
 	public function delete(\model\JobGroup $jobGroup) {
 		$db = $this -> connection();
