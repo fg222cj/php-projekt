@@ -39,6 +39,45 @@ class MunicipalityRepository extends Repository {
 		return null;
 	}
 	
+	public function getAllFromDb() {
+		$db = $this->connection();
+
+		$sql = "SELECT * FROM " . MUNICIPALITY_TABLE;
+
+		$query = $db->prepare($sql);
+		$query->execute();
+
+		$result = $query->fetchAll();
+		$municipalities = array();
+		
+		foreach($result as $row) {
+			$municipality = new Municipality($row[ID_COLUMN], $row[MUNICIPALITY_ID_COLUMN], $row[MUNICIPALITY_NAME_COLUMN], $row[MUNICIPALITY_COUNTY_ID_COLUMN]);
+			$municipalities[] = $municipality;
+		}
+		
+		return $municipalities;
+	}
+	
+	public function getFromDbByCounty($countyId) {
+		$db = $this->connection();
+
+		$sql = "SELECT * FROM " . MUNICIPALITY_TABLE . " WHERE " . MUNICIPALITY_COUNTY_ID_COLUMN . " = ?";
+		$params = array($countyId);
+
+		$query = $db->prepare($sql);
+		$query -> execute($params);
+
+		$result = $query->fetchAll();
+		$municipalities = array();
+
+		foreach($result as $row) {
+			$municipality = new Municipality($row[ID_COLUMN], $row[MUNICIPALITY_ID_COLUMN], $row[MUNICIPALITY_NAME_COLUMN], $row[MUNICIPALITY_COUNTY_ID_COLUMN]);
+			$municipalities[] = $municipality;
+		}
+
+		return $municipalities;
+	}
+	
 	public function getFromDbByName($name) {
 		$db = $this->connection();
 

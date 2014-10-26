@@ -2,17 +2,29 @@
 namespace model;
 
 require_once("./src/model/AdRepository.php");
+require_once("./src/model/JobCategoryRepository.php");
+require_once("./src/model/JobGroupRepository.php");
 require_once("./src/model/JobTitleRepository.php");
+require_once("./src/model/CountyRepository.php");
+require_once("./src/model/MunicipalityRepository.php");
 require_once('./src/vendors/phpgraphlib/phpgraphlib.php');
 require_once("./src/model/Result.php");
 
 class DataPresentationModel {
 	private $adRepository;
+	private $jobCategoryRepository;
+	private $jobGroupRepository;
 	private $jobTitleRepository;
+	private $countyRepository;
+	private $municipalityRepository;
 	
 	public function __construct() {
 		$this->adRepository = new \model\AdRepository();
+		$this->jobCategoryRepository = new \model\JobCategoryRepository();
+		$this->jobGroupRepository = new \model\JobGroupRepository();
 		$this->jobTitleRepository = new \model\JobTitleRepository();
+		$this->countyRepository = new \model\CountyRepository();
+		$this->municipalityRepository = new \model\MunicipalityRepository();
 	}
 	
 	public function getResult($keyword = null, $jobTitle = null, $jobGroup = null, $jobCategory = null, $municipality = null, $county = null) {
@@ -34,7 +46,7 @@ class DataPresentationModel {
 			$jobTitleData = array();
 			
 			$relatedJobTitlesData = array();
-			$relatedJobTitlesData = $this->adRepository->getRelatedJobTitlesData($keyword);
+			$relatedJobTitlesData = $this->adRepository->getRelatedJobTitlesData($keyword, $jobTitle, $jobGroup, $jobCategory, $municipality, $county);
 			if(!empty($relatedJobTitlesData)) {
 				$relatedJobTitles = array();
 				foreach($relatedJobTitlesData as $data) {
@@ -48,6 +60,26 @@ class DataPresentationModel {
 		$result = new \model\Result($keyword, $graphs, null, $relatedJobTitles);
 		
 		return $result;
+	}
+
+	public function getCounties() {
+		return $this->countyRepository->getAllFromDb();
+	}
+	
+	public function getMunicipalities($countyId) {
+		return $this->municipalityRepository->getFromDbByCounty($countyId);
+	}
+	
+	public function getJobCategories() {
+		return $this->jobCategoryRepository->getAllFromDb();
+	}
+	
+	public function getJobGroups($jobCategoryId) {
+		return $this->jobGroupRepository->getFromDbByJobCategory($jobCategoryId);
+	}
+	
+	public function getJobTitles($jobGroupId) {
+		return $this->jobTitleRepository->getFromDbByJobGroup($jobGroupId);
 	}
 	
 	public function keywordSearch($keyword = null, $jobTitle = null, $jobGroup = null, $jobCategory = null, $municipality = null, $county = null) {

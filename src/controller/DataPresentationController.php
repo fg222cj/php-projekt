@@ -11,14 +11,20 @@ class DataPresentationController {
 	
 	public function __construct() {
 		$this->dataPresentationModel = new \model\DataPresentationModel();
-		$this->dataPresentationView = new \view\DataPresentationView();
+		$this->dataPresentationView = new \view\DataPresentationView($this->dataPresentationModel);
 	}
 	
 	public function doControl() {
 		try {
 			switch($this->dataPresentationView->getAction()) {
 				case GET_ACTION_KEYWORD:
-					return $this->keywordSearch($this->dataPresentationView->getKeyword());
+					return $this->keywordSearch($this->dataPresentationView->getKeyword(), $this->dataPresentationView->getJobTitle(), 
+					$this->dataPresentationView->getJobGroup(), $this->dataPresentationView->getJobCategory(), $this->dataPresentationView->getMunicipality(), 
+					$this->dataPresentationView->getCounty());
+					break;
+					
+				case GET_ACTION_OPTIONS:
+					$this->dataPresentationView->showOptions();
 					break;
 					
 				default:
@@ -33,8 +39,8 @@ class DataPresentationController {
 		}
 	}
 	
-	public function keywordSearch($keyword) {
-		$result = $this->dataPresentationModel->getResult($keyword);
+	public function keywordSearch($keyword, $jobTitle, $jobGroup, $jobCategory, $municipality, $county) {
+		$result = $this->dataPresentationModel->getResult($keyword, $jobTitle, $jobGroup, $jobCategory, $municipality, $county);
 		return $this->dataPresentationView->showResult($result);
 	}
 }

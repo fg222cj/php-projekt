@@ -17,8 +17,10 @@ $dr = new \DatabaseRefactor();
 $HTMLBody = $dr->refactor();
 */
 
-$htmlView = new \view\HTMLView();
-$htmlView->showHTML($HTMLBody);
+if(!isset($_GET[GET_ACTION_OPTIONS])) {
+	$htmlView = new \view\HTMLView();
+	$htmlView->showHTML($HTMLBody);
+}
 
 /*
 $countyRepo = new \model\CountyRepository();

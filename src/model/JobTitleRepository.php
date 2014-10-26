@@ -39,6 +39,26 @@ class JobTitleRepository extends Repository {
 		return null;
 	}
 	
+	public function getFromDbByJobGroup($jobGroupId) {
+		$db = $this->connection();
+
+		$sql = "SELECT * FROM " . JOB_TITLE_TABLE . " WHERE " . JOB_TITLE_JOB_GROUP_ID_COLUMN . " = ?";
+		$params = array($jobGroupId);
+
+		$query = $db->prepare($sql);
+		$query -> execute($params);
+
+		$result = $query->fetchAll();
+		$jobTitles = array();
+
+		foreach($result as $row) {
+			$jobTitle = new JobTitle($row[ID_COLUMN], $row[JOB_TITLE_ID_COLUMN], $row[JOB_TITLE_NAME_COLUMN], $row[JOB_TITLE_JOB_GROUP_ID_COLUMN]);
+			$jobTitles[] = $jobTitle;
+		}
+
+		return $jobTitles;
+	}
+	
 	public function getFromDbByJobId($jobId) {
 		$db = $this->connection();
 

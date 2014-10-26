@@ -34,11 +34,30 @@ class JobCategoryRepository extends Repository {
 		$result = $query->fetch();
 
 		if ($result) {
-			$jobCategory = new \model\JobCategory($result[JOB_CATEGORY_ID_COLUMN], $result[JOB_CATEGORY_NAME_COLUMN]);
+			$jobCategory = new \model\JobCategory($result[ID_COLUMN], $result[JOB_CATEGORY_ID_COLUMN], $result[JOB_CATEGORY_NAME_COLUMN]);
 			return $jobCategory;
 		}
 
 		return null;
+	}
+	
+	public function getAllFromDb() {
+		$db = $this->connection();
+
+		$sql = "SELECT * FROM " . JOB_CATEGORY_TABLE;
+
+		$query = $db->prepare($sql);
+		$query->execute();
+
+		$result = $query->fetchAll();
+		$jobCategories = array();
+		
+		foreach($result as $row) {
+			$jobCategory = new JobCategory($row[ID_COLUMN], $row[JOB_CATEGORY_ID_COLUMN], $row[JOB_CATEGORY_NAME_COLUMN]);
+			$jobCategories[] = $jobCategory;
+		}
+		
+		return $jobCategories;
 	}
 	 
 	public function delete(\model\JobCategory $jobCategory) {

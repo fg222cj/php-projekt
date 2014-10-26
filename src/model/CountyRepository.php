@@ -26,10 +26,9 @@ class CountyRepository extends Repository {
 		$db = $this->connection();
 
 		$sql = "SELECT * FROM " . COUNTY_TABLE;
-		$params = array($unique);
 
 		$query = $db->prepare($sql);
-		$query->execute($params);
+		$query->execute();
 
 		$result = $query->fetchAll();
 		$counties = array();

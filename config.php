@@ -70,11 +70,14 @@ define("JOB_AD_JOB_CATEGORY_ID_COLUMN", "yrkesomradeid");
 
 /* HTTP GET-requests */
 define("GET_ACTION_KEYWORD", "keyword");
-define("GET_ACTION_MUNICIPALITY", "municipality");
-define("GET_ACTION_COUNTY", "county");
-define("GET_ACTION_JOB_CATEGORY", "jobcategory");
-define("GET_ACTION_JOB_GROUP", "jobgroup");
-define("GET_ACTION_JOB_TITLE", "jobtitle");
+define("GET_ACTION_MUNICIPALITY", "municipality"); 	// If value is changed, related javascript(s) may also need to be edited.
+define("GET_ACTION_COUNTY", "county");				// If value is changed, related javascript(s) may also need to be edited.
+define("GET_ACTION_JOB_CATEGORY", "jobcategory");	// If value is changed, related javascript(s) may also need to be edited.
+define("GET_ACTION_JOB_GROUP", "jobgroup");			// If value is changed, related javascript(s) may also need to be edited.
+define("GET_ACTION_JOB_TITLE", "jobtitle");			// If value is changed, related javascript(s) may also need to be edited.
+define("GET_ACTION_OPTIONS", "options");			// If value is changed, related javascript(s) may also need to be edited.
+define("GET_ACTION_OPTIONS_ID", "optionid");		// If value is changed, related javascript(s) may also need to be edited.
+define("GET_VALUE_OPTIONS_MUNICIPALITIES", "municipalities");
 
 
 /* HTTP POST-requests */
@@ -87,6 +90,7 @@ define("ERROR_EMPTY_DATA_SET", "emptydataset");
 
 
 /* File and folder paths */
-define("FILE_PATH_GRAPHS_FOLDER", "./src/graphs/")
+define("FILE_PATH_GRAPHS_FOLDER", "./src/graphs/");
+define("FILE_PATH_JS_AJAX", "./src/js/AJAX.js");
 
 ?>

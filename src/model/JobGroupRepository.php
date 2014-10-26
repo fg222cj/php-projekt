@@ -41,6 +41,26 @@ class JobGroupRepository extends Repository {
 		return null;
 	}
 	
+	public function getFromDbByJobCategory($jobCategoryId) {
+		$db = $this->connection();
+
+		$sql = "SELECT * FROM " . JOB_GROUP_TABLE . " WHERE " . JOB_GROUP_JOB_CATEGORY_ID_COLUMN . " = ?";
+		$params = array($jobCategoryId);
+
+		$query = $db->prepare($sql);
+		$query -> execute($params);
+
+		$result = $query->fetchAll();
+		$jobGroups = array();
+
+		foreach($result as $row) {
+			$jobGroup = new JobGroup($row[ID_COLUMN], $row[JOB_GROUP_ID_COLUMN], $row[JOB_GROUP_NAME_COLUMN], $row[JOB_GROUP_JOB_CATEGORY_ID_COLUMN]);
+			$jobGroups[] = $jobGroup;
+		}
+
+		return $jobGroups;
+	}
+	
 	public function getFromDbByJobGroupId($jobGroupId) {
 		$db = $this->connection();
 
