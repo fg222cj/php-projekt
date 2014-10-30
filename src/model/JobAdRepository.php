@@ -12,6 +12,7 @@ class JobAdRepository extends Repository {
 		$this->countyRepository = new CountyRepository();
 	}
 
+	// Inserts object into db
 	public function add(JobAd $jobAd) {
 		$db = $this->connection();
 
@@ -23,7 +24,8 @@ class JobAdRepository extends Repository {
 		$query = $db->prepare($sql);
 		$query->execute($params);
 	}
-
+	
+	// Fetches object from db based on primary key id
 	public function getFromDb($id) {
 		$db = $this->connection();
 
@@ -43,6 +45,7 @@ class JobAdRepository extends Repository {
 		return null;
 	}
 	
+	// Counts the number of records in the db that match the parameter
 	public function getCount($keyword) {
 		$db = $this->connection();
 
@@ -57,7 +60,8 @@ class JobAdRepository extends Repository {
 		return $result;
 
 	}
-	 
+	
+	// Removes a record from the db
 	public function delete(\model\JobAd $jobAd) {
 		$db = $this -> connection();
 
@@ -67,7 +71,8 @@ class JobAdRepository extends Repository {
 		$query = $db->prepare($sql);
 		$query->execute($params);
 	}
-
+	
+	// Fetches records from an xml source and returns them as objects in an array
  	public function getFromXML($XMLPath) {
  		$xml = $this->loadXML($XMLPath);
 		$jobAd = new JobAd(0, $xml->annons->annonsid, $xml->annons->annonsrubrik, $xml->annons->annonstext, $xml->annons->yrkesbenamning,
@@ -75,6 +80,7 @@ class JobAdRepository extends Repository {
 		return $jobAd;
  	}
 	
+	// Requests and inserts job ads into the db.
 	public function populateJobAdTable() {
 		$counties = $this->countyRepository->getFromXML(BASE_PATH . AD_PATH . SEARCH_LIST_PATH . COUNTY_PATH);
 		foreach($counties as $county) {

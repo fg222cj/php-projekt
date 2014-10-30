@@ -5,6 +5,7 @@ require_once('./src/model/Keyword.php');
 require_once('./src/model/Repository.php');
 
 class KeywordRepository extends Repository {
+	// Inserts object into db
 	public function add(\model\Keyword $keyword) {
 		$db = $this->connection();
 
@@ -14,11 +15,12 @@ class KeywordRepository extends Repository {
 		$query = $db->prepare($sql);
 		$query->execute($params);
 	}
-
+	
+	// Fetches object from db based on primary key id
 	public function getFromDb($id) {
 		$db = $this->connection();
 
-		$sql = "SELECT * FROM " . KEYWORD_TABLE . " WHERE " . KEYWORD_NAME . " = ?";
+		$sql = "SELECT * FROM " . KEYWORD_TABLE . " WHERE " . ID_COLUMN . " = ?";
 		$params = array($id);
 
 		$query = $db->prepare($sql);
@@ -34,6 +36,7 @@ class KeywordRepository extends Repository {
 		return null;
 	}
 	
+	// Fetches all rows from db as objects in an array
 	public function getAllFromDb() {
 		$db = $this->connection();
 
@@ -53,6 +56,7 @@ class KeywordRepository extends Repository {
 		return $keywords;
 	}
 	
+	// Fetches all keyword-related records from the db and returns them as objects in an array
 	public function getAllRelevantFromDbByJobCategory($jobCategoryId) {
 		$db = $this->connection();
 
@@ -71,7 +75,8 @@ class KeywordRepository extends Repository {
 		
 		return $keywords;
 	}
-	 
+	
+	// Removes a record from the db
 	public function delete(\model\JobCategory $jobCategory) {
 		$db = $this -> connection();
 
@@ -81,7 +86,8 @@ class KeywordRepository extends Repository {
 		$query = $db->prepare($sql);
 		$query->execute($params);
 	}
-
+	
+	// Fetches records from an xml source and returns them as objects in an array
  	public function getFromXML($XMLPath) {
  		$xml = $this->loadXML($XMLPath);
 		$jobCategories = array();

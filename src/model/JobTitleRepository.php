@@ -5,11 +5,8 @@ require_once('./src/model/JobTitle.php');
 require_once('./src/model/Repository.php');
 
 class JobTitleRepository extends Repository {
-
-	public function __construct() {
-
-	}
-
+	
+	// Inserts object into db
 	public function add(JobTitle $jobTitle) {
 		$db = $this->connection();
 
@@ -20,6 +17,7 @@ class JobTitleRepository extends Repository {
 		$query->execute($params);
 	}
 
+	// Fetches object from db based on primary key id
 	public function getFromDb($id) {
 		$db = $this->connection();
 
@@ -39,6 +37,7 @@ class JobTitleRepository extends Repository {
 		return null;
 	}
 	
+	// Fetches multiple records from the db based on foreign key and returns them as objects in an array
 	public function getFromDbByJobGroup($jobGroupId) {
 		$db = $this->connection();
 
@@ -59,6 +58,7 @@ class JobTitleRepository extends Repository {
 		return $jobTitles;
 	}
 	
+	// Fetches object from db based on job title id
 	public function getFromDbByJobId($jobId) {
 		$db = $this->connection();
 
@@ -78,6 +78,7 @@ class JobTitleRepository extends Repository {
 		return null;
 	}
 	
+	// Fetches parent id (fk) and returns it
 	public function getJobGroupIdFromDbByJobTitleId($jobTitleId) {
 		$db = $this->connection();
 
@@ -91,7 +92,8 @@ class JobTitleRepository extends Repository {
 
 		return $result[0];
 	}
-	 
+	
+	// Removes a record from the db
 	public function delete(\model\JobTitle $jobTitle) {
 		$db = $this->connection();
 
@@ -101,7 +103,8 @@ class JobTitleRepository extends Repository {
 		$query = $db->prepare($sql);
 		$query->execute($params);
 	}
-
+	
+	// Fetches records from an xml source and returns them as objects in an array
  	public function getFromXML($XMLPath, $foreignKey) {
  		$xml = $this->loadXML($XMLPath);
 		$jobTitles = array();

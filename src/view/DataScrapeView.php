@@ -24,14 +24,17 @@ class DataScrapeView {
 	}
 	
 	public function adminForm() {
+		// Fetch logs so we can show info about current and past tasks.
 		$logAdTable = $this->dataScrapeModel->getScrapeLog(JOB_AD_TABLE);
 		$logJobTables = $this->dataScrapeModel->getScrapeLog(JOB_CATEGORY_TABLE);
 		$logRegionTables = $this->dataScrapeModel->getScrapeLog(COUNTY_TABLE);
 		
+		// Turn the logs into useful data and make it helpful.
 		$logAdText = $this->calculateLastUpdate($logAdTable);
 		$logJobText = $this->calculateLastUpdate($logJobTables);
 		$logRegionText = $this->calculateLastUpdate($logRegionTables);
 		
+		// If there's an ongoing update we need to show that and disable the appropriate controls.
 		$adUpdateDisabled = $this->disableUpdate($logAdTable);
 		$jobUpdateDisabled = $this->disableUpdate($logJobTables);
 		$regionUpdateDisabled = $this->disableUpdate($logRegionTables);
@@ -76,6 +79,7 @@ class DataScrapeView {
 		return $html;
 	}
 
+	// Takes a ScrapeLog object, calculates time differences and returns a formatted string.
 	public function calculateLastUpdate(\model\ScrapeLog $scrapeLog = null) {
 		$logText = "";
 		
@@ -95,6 +99,7 @@ class DataScrapeView {
 		return $logText;
 	}
 	
+	// Takes a ScrapeLog object and checks if the task has been completed. Otherwise it's in progress and we return a "disabled" string.
 	public function disableUpdate(\model\ScrapeLog $scrapeLog = null) {
 		$disableText = "";
 		
@@ -107,6 +112,7 @@ class DataScrapeView {
 		return $disableText;
 	}
 	
+	// Sets a message that is displayed to the user.
 	public function setMessage($message) {
 		switch($message) {
 			case ERROR_UPDATE_IN_PROGRESS:

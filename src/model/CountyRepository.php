@@ -12,6 +12,7 @@ class CountyRepository extends Repository {
 		$this->municipalityRepository = new MunicipalityRepository();
 	}
 
+	// Inserts object into db
 	public function add(County $county) {
 		$db = $this->connection();
 
@@ -22,6 +23,7 @@ class CountyRepository extends Repository {
 		$query->execute($params);
 	}
 	
+	// Fetches all rows from db as objects in an array
 	public function getAllFromDb() {
 		$db = $this->connection();
 
@@ -41,6 +43,7 @@ class CountyRepository extends Repository {
 		return $counties;
 	}
 
+	// Fetches object from db based on primary key id
 	public function getFromDb($id) {
 		$db = $this->connection();
 
@@ -60,6 +63,7 @@ class CountyRepository extends Repository {
 		return null;
 	}
 	
+	// Fetches object from db by county id
 	public function getFromDbByCountyId($id) {
 		$db = $this->connection();
 
@@ -78,7 +82,8 @@ class CountyRepository extends Repository {
 
 		return null;
 	}
-	 
+	
+	// Removes a record from the db
 	public function delete(\model\County $county) {
 		$db = $this -> connection();
 
@@ -88,7 +93,8 @@ class CountyRepository extends Repository {
 		$query = $db->prepare($sql);
 		$query->execute($params);
 	}
-
+	
+	// Fetches records from an xml source and returns them as objects in an array
  	public function getFromXML($XMLPath) {
  		$xml = $this->loadXML($XMLPath);
 		$counties = array();

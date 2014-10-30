@@ -12,6 +12,7 @@ class JobCategoryRepository extends Repository {
 		$this->jobGroupRepository = new JobGroupRepository();
 	}
 
+	// Inserts object into db
 	public function add(JobCategory $jobCategory) {
 		$db = $this->connection();
 
@@ -22,6 +23,7 @@ class JobCategoryRepository extends Repository {
 		$query->execute($params);
 	}
 
+	// Fetches object from db based on job category id
 	public function getFromDb($id) {
 		$db = $this->connection();
 
@@ -41,6 +43,7 @@ class JobCategoryRepository extends Repository {
 		return null;
 	}
 	
+	// Fetches all rows from db as objects in an array
 	public function getAllFromDb() {
 		$db = $this->connection();
 
@@ -60,6 +63,7 @@ class JobCategoryRepository extends Repository {
 		return $jobCategories;
 	}
 	 
+	// Removes a record from the db
 	public function delete(\model\JobCategory $jobCategory) {
 		$db = $this -> connection();
 
@@ -69,7 +73,8 @@ class JobCategoryRepository extends Repository {
 		$query = $db->prepare($sql);
 		$query->execute($params);
 	}
-
+	
+	// Fetches records from an xml source and returns them as objects in an array
  	public function getFromXML($XMLPath) {
  		$xml = $this->loadXML($XMLPath);
 		$jobCategories = array();

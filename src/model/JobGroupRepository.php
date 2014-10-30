@@ -12,6 +12,7 @@ class JobGroupRepository extends Repository {
 		$this->jobTitleRepository = new JobTitleRepository();
 	}
 
+	// Inserts object into db
 	public function add(JobGroup $jobGroup) {
 		$db = $this->connection();
 
@@ -22,6 +23,7 @@ class JobGroupRepository extends Repository {
 		$query->execute($params);
 	}
 
+	// Fetches object from db based on primary key id
 	public function getFromDb($id) {
 		$db = $this->connection();
 
@@ -41,6 +43,7 @@ class JobGroupRepository extends Repository {
 		return null;
 	}
 	
+	// Fetches multiple records from the db based on foreign key and returns them as objects in an array
 	public function getFromDbByJobCategory($jobCategoryId) {
 		$db = $this->connection();
 
@@ -61,6 +64,7 @@ class JobGroupRepository extends Repository {
 		return $jobGroups;
 	}
 	
+	// Fetches object from db based on job group id
 	public function getFromDbByJobGroupId($jobGroupId) {
 		$db = $this->connection();
 
@@ -80,6 +84,7 @@ class JobGroupRepository extends Repository {
 		return null;
 	}
 	
+	// Fetches parent id based on job group id
 	public function getJobCategoryIdFromDbByJobGroupId($jobGroupId) {
 		$db = $this->connection();
 
@@ -93,7 +98,8 @@ class JobGroupRepository extends Repository {
 
 		return $result[0];
 	}
-	 
+	
+	// Removes a record from the db
 	public function delete(\model\JobGroup $jobGroup) {
 		$db = $this -> connection();
 
@@ -103,7 +109,8 @@ class JobGroupRepository extends Repository {
 		$query = $db->prepare($sql);
 		$query->execute($params);
 	}
-
+	
+	// Fetches records from an xml source and returns them as objects in an array
  	public function getFromXML($XMLPath, $foreignKey) {
  		$xml = $this->loadXML($XMLPath);
 		$jobGroups = array();
@@ -114,6 +121,7 @@ class JobGroupRepository extends Repository {
 		return $jobGroups;
  	}
 	
+	// Fetches children from xml source and inserts them into the db
 	public function populateJobTables($XMLPath, $foreignKey) {
 		$jobGroups = $this->getFromXML($XMLPath, $foreignKey);
 		foreach($jobGroups as $jobGroup) {

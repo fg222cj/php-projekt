@@ -20,6 +20,7 @@ abstract class Repository {
 		return $this->dbConnection;
 	}
 	
+	// Loads XML from path, returns it as an XMLElement
 	public function loadXML($XMLPath) {
 		$this->XMLPath = $XMLPath; 
 		$XMLContents = $this->get_url_contents($this->XMLPath);
@@ -27,6 +28,7 @@ abstract class Repository {
 		return $this->XMLElement;
 	}
 	
+	// Fetches remote content as xml
 	function get_url_contents($url){
         $curl = curl_init();
         $timeout = 5;

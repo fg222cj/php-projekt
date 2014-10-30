@@ -5,6 +5,7 @@ require_once('./src/model/ScrapeLog.php');
 require_once('./src/model/Repository.php');
 
 class ScrapeLogRepository extends Repository {
+	// Inserts object into db
 	public function add(\model\ScrapeLog $scrapeLog) {
 		$db = $this->connection();
 
@@ -18,6 +19,7 @@ class ScrapeLogRepository extends Repository {
 		return $db->lastInsertId();
 	}
 	
+	// Fetches all rows from db as objects in an array
 	public function getAllFromDb() {
 		$db = $this->connection();
 
@@ -38,6 +40,7 @@ class ScrapeLogRepository extends Repository {
 		return $scrapeLogs;
 	}
 
+	// Fetches object from db based on primary key id
 	public function getFromDb($id) {
 		$db = $this->connection();
 
@@ -58,6 +61,7 @@ class ScrapeLogRepository extends Repository {
 		return null;
 	}
 	
+	// Fetches the most recent log relating to the table name in the parameter
 	public function getLastFromDbByTableName($tableName) {
 		$db = $this->connection();
 
@@ -78,6 +82,7 @@ class ScrapeLogRepository extends Repository {
 		return null;
 	}
 	
+	// Updates record with the data in the object
 	public function update(\model\ScrapeLog $scrapeLog) {
 		$db = $this->connection();
 
@@ -89,7 +94,8 @@ class ScrapeLogRepository extends Repository {
 		$query = $db->prepare($sql);
 		$query->execute($params);
 	}
-	 
+	
+	// Removes a record from the db
 	public function delete(\model\ScrapeLog $scrapeLog) {
 		$db = $this -> connection();
 

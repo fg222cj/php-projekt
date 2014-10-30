@@ -9,7 +9,6 @@ require_once("./src/model/JobCategoryRepository.php");
 require_once('./src/model/JobGroupRepository.php');
 require_once("./src/model/AdRepository.php");
 require_once("./src/model/AdAdapter.php");
-//require_once("./src/helpers/System.php");
 
 class DataScrapeModel {
 	private $scrapeLogRepository;
@@ -20,7 +19,6 @@ class DataScrapeModel {
 	private $jobGroupRepository;
 	private $adRepository;
 	private $adAdapter;
-	//private $system;
 	
 	public function __construct() {
 		$this->scrapeLogRepository = new \model\ScrapeLogRepository();
@@ -31,14 +29,15 @@ class DataScrapeModel {
 		$this->jobGroupRepository = new \model\JobGroupRepository();
 		$this->countyRepository = new \model\CountyRepository();
 		$this->municipalityRepository = new \model\MunicipalityRepository();
-		//$this->system = new \helpers\System();
 	}
 	
+	// Fetch a ScrapeLog object based on which db table it logged changes on.
 	public function getScrapeLog($tableName) {
 		$scrapeLog = $this->scrapeLogRepository->getLastFromDbByTableName($tableName);
 		return $scrapeLog;
 	}
 	
+	// Fetch job ads from source, adapt them and store them. The task is logged.
 	public function populateAdTable() {
 		$scrapeLog = $this->addLog(JOB_AD_TABLE);
 		
@@ -62,6 +61,7 @@ class DataScrapeModel {
 		$this->updateLog($scrapeLog);
 	}
 	
+	// Fetch job tables data from source and store it. The task is logged.
 	public function populateJobTables() {
 		$scrapeLog = $this->addLog(JOB_CATEGORY_TABLE);
 		
@@ -75,6 +75,7 @@ class DataScrapeModel {
 		$this->updateLog($scrapeLog);
 	}
 	
+	// Fetch region tables data from source and store it. The task is logged.
 	public function populateRegionTables() {
 		$scrapeLog = $this->addLog(COUNTY_TABLE);
 		
@@ -92,6 +93,7 @@ class DataScrapeModel {
 		$this->updateLog($scrapeLog);
 	}
 	
+	// Start logging data about a task based on the table that is being updated. Returns a ScrapeLog object.
 	public function addLog($tableName) {
 		$scrapeLog = new \model\ScrapeLog(0, $tableName, 0, date('Y-m-d H:i:s'), null);
 		
@@ -102,38 +104,43 @@ class DataScrapeModel {
 		return $scrapeLog;
 	}
 	
+	// Updates a log entry. 
 	public function updateLog($scrapeLog) {
 		$scrapeLog->setFinishedAt(date('Y-m-d H:i:s'));
 		$this->scrapeLogRepository->update($scrapeLog);
 	}
 	
+	// Starts the job ad update job.
 	public function beginTaskUpdateAdTable() {
 		$logAdTable = $this->getScrapeLog(JOB_AD_TABLE);
 		if($this->updateDisabled($logAdTable) === true) {
 			throw new \Exception(ERROR_UPDATE_IN_PROGRESS);
 		}
 		exec(PHP_EXECUTE_FILE_PATH . " " . BASE_ABSOLUTE_PATH . FILE_PATH_TASK_UPDATE_ADS . " > /dev/null &");
-		usleep(50000);
+		usleep(50000); // Minor MVC violation. Script is paused shortly to allow for tasks to begin so that when the page is reloaded we will be able to detect that the task is running.
 	}
 	
+	// Starts the job tables update job.
 	public function beginTaskUpdateJobTables() {
 		$logJobTables = $this->getScrapeLog(JOB_CATEGORY_TABLE);
 		if($this->updateDisabled($logJobTables) === true) {
 			throw new \Exception(ERROR_UPDATE_IN_PROGRESS);
 		}
 		exec(PHP_EXECUTE_FILE_PATH . " " . BASE_ABSOLUTE_PATH . FILE_PATH_TASK_UPDATE_JOBS . " > /dev/null &");
-		usleep(50000);
+		usleep(50000); // Minor MVC violation. Script is paused shortly to allow for tasks to begin so that when the page is reloaded we will be able to detect that the task is running.
 	}
 	
+	// Starts the region tables update job.
 	public function beginTaskUpdateRegionTables() {
 		$logRegionTables = $this->getScrapeLog(COUNTY_TABLE);
 		if($this->updateDisabled($logRegionTables) === true) {
 			throw new \Exception(ERROR_UPDATE_IN_PROGRESS);
 		}
 		exec(PHP_EXECUTE_FILE_PATH . " " . BASE_ABSOLUTE_PATH . FILE_PATH_TASK_UPDATE_REGIONS . " > /dev/null &");
-		usleep(50000);
+		usleep(50000); // Minor MVC violation. Script is paused shortly to allow for tasks to begin so that when the page is reloaded we will be able to detect that the task is running.
 	}
 	
+	// Takes a ScrapeLog object and checks it to see if a specific task is currently in progress.
 	public function updateDisabled(\model\ScrapeLog $scrapeLog = null) {
 		if(isset($scrapeLog)) {
 			if($scrapeLog->getFinishedAt() === null) {

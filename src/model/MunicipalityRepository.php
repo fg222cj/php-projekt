@@ -6,10 +6,7 @@ require_once('./src/model/Repository.php');
 
 class MunicipalityRepository extends Repository {
 
-	public function __construct() {
-
-	}
-
+	// Inserts object into db
 	public function add(Municipality $municipality) {
 		$db = $this->connection();
 
@@ -20,6 +17,7 @@ class MunicipalityRepository extends Repository {
 		$query->execute($params);
 	}
 
+	// Fetches object from db based on primary key id
 	public function getFromDb($id) {
 		$db = $this->connection();
 
@@ -39,6 +37,7 @@ class MunicipalityRepository extends Repository {
 		return null;
 	}
 	
+	// Fetches all rows from db as objects in an array
 	public function getAllFromDb() {
 		$db = $this->connection();
 
@@ -58,6 +57,7 @@ class MunicipalityRepository extends Repository {
 		return $municipalities;
 	}
 	
+	// Fetches multiple records from the db based on foreign key and returns them as objects in an array
 	public function getFromDbByCounty($countyId) {
 		$db = $this->connection();
 
@@ -78,6 +78,7 @@ class MunicipalityRepository extends Repository {
 		return $municipalities;
 	}
 	
+	// Fetches parent id (fk) and returns it
 	public function getCountyIdFromDbByMunicipalityId($municipalityId) {
 		$db = $this->connection();
 
@@ -92,6 +93,7 @@ class MunicipalityRepository extends Repository {
 		return $result[0];
 	}
 	
+	// Fetches object from db by municipality name
 	public function getFromDbByName($name) {
 		$db = $this->connection();
 
@@ -110,7 +112,8 @@ class MunicipalityRepository extends Repository {
 
 		return null;
 	}
-	 
+	
+	// Removes a record from the db
 	public function delete(\model\Municipality $municipality) {
 		$db = $this->connection();
 
@@ -120,7 +123,8 @@ class MunicipalityRepository extends Repository {
 		$query = $db->prepare($sql);
 		$query->execute($params);
 	}
-
+	
+	// Fetches records from an xml source and returns them as objects in an array
  	public function getFromXML($XMLPath, $foreignKey) {
  		$xml = $this->loadXML($XMLPath);
 		$municipalities = array();

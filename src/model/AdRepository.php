@@ -8,7 +8,8 @@ class AdRepository extends Repository {
 	
 	public function __construct() {
 	}
-
+	
+	// Inserts object into db
 	public function add(\model\Ad $ad) {
 		$db = $this->connection();
 
@@ -22,7 +23,8 @@ class AdRepository extends Repository {
 		$query = $db->prepare($sql);
 		$query->execute($params);
 	}
-
+	
+	// Fetches object from db based on primary key id
 	public function getFromDb($id) {
 		$db = $this->connection();
 
@@ -44,6 +46,7 @@ class AdRepository extends Repository {
 		return null;
 	}
 	
+	// Counts the number of records in the db that match the parameters and returns an array with the count and additional data
 	public function getCount($keyword = null, $jobTitle = null, $jobGroup = null, $jobCategory = null, $municipality = null, $county = null) {
 		$db = $this->connection();
 		
@@ -105,6 +108,7 @@ class AdRepository extends Repository {
 			$whereClauses = "";
 		}
 
+		// Groups instances by week and year. Fetches the year and the week as well as the total number of available positions in the matching records.
 		$sql = "SELECT YEAR(" . JOB_AD_PUBLICATION_DATE_COLUMN . "), WEEK(" . JOB_AD_PUBLICATION_DATE_COLUMN . "), SUM(" . JOB_AD_POSITIONS_AVAILABLE_COLUMN . ") FROM " . JOB_AD_TABLE . " 
 		" . $whereClauses . " GROUP BY YEARWEEK(" . JOB_AD_PUBLICATION_DATE_COLUMN . ") ORDER BY YEARWEEK(" . JOB_AD_PUBLICATION_DATE_COLUMN . ") ASC";
 		
@@ -114,7 +118,8 @@ class AdRepository extends Repository {
 		$result = $query->fetchAll();
 		return $result;
 	}
-
+	
+	// Fetches job titles related to the search parameters.
 	public function getRelatedJobTitlesData($keyword = null, $jobTitle = null, $jobGroup = null, $jobCategory = null, $municipality = null, $county = null) {
 		$db = $this->connection();
 		
@@ -186,7 +191,8 @@ class AdRepository extends Repository {
 		$result = $query->fetchAll();
 		return $result;
 	}
-
+	
+	// Fetches counties related to the search parameters.
 	public function getRelatedCountiesData($keyword = null, $jobTitle = null, $jobGroup = null, $jobCategory = null, $municipality = null, $county = null) {
 		$db = $this->connection();
 		
@@ -280,7 +286,8 @@ class AdRepository extends Repository {
 
 		return null;
 	}
-	 
+	
+	// Removes a record from the db
 	public function delete(\model\Ad $ad) {
 		$db = $this -> connection();
 

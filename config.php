@@ -3,6 +3,9 @@
 /* Database settings - THESE NEED TO BE EDITED ON NEW INSTALLATIONS */
 define("DB_USERNAME", "root");
 define("DB_PASSWORD", "");
+
+//define("DB_USERNAME", "amgclient");
+//define("DB_PASSWORD", "Dy53Gp7PA2YyDpdC");
 define("DB_CONNECTION", "mysql:host=127.0.0.1;dbname=amg;charset=utf8");
 
 

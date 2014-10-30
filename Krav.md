@@ -41,6 +41,10 @@ Normal navigering in på sidan.
 
 * Startsidan presenteras.
 
+**Status:**
+
+* Klar
+
 ### UC 1.2 - Användaren söker på ett nyckelord ###
 Enkel sökning på ett nyckelord.
 
@@ -57,6 +61,10 @@ Enkel sökning på ett nyckelord.
 * Länkar till yrkesgrupper som nyckelordet förknippas med visas i en lista, sorterat efter vanlighet.
 * Ett antal regioner där nyckelordet är vanligt visas i en lista, sorterat efter vanlighet.
 
+**Status:**
+
+* Klar
+
 ### UC 1.3 - Användaren söker efter region ###
 Användaren vill ha information om ett område.
 
@@ -71,6 +79,10 @@ Användaren vill ha information om ett område.
 * En egen sida för regionen presenteras.
 * En länkad lista över vanliga yrkesgrupper i regionen visas.
 
+**Status:**
+
+* Klar
+
 ### UC 1.4 - Användaren söker på yrkesgrupp ###
 
 **Input:**
@@ -82,8 +94,12 @@ Användaren vill ha information om ett område.
 **Output:**
 
 * En egen sida för yrkesgruppen visas.
-* En graf visar efterfrågan på yrkesgruppen över tid.
-* Ett länkat stapeldiagram med de vanligaste nyckelorden för yrkeskåren visas.
+* En graf visar efterfrågan på yrkesgruppen över tid. (Ej implementerad)
+* Ett länkat stapeldiagram med de vanligaste nyckelorden för yrkeskåren visas. (Ej implementerad)
+
+**Status:**
+
+* Påbörjad
 
 ### UC 1.5 - Användaren söker på ett nyckelord och anger region ###
 
@@ -99,6 +115,10 @@ Användaren vill ha information om ett område.
 * Som 1.2, fast endast med data från den aktuella regionen.
 * Regionens namn framgår tydligt på sidan.
 
+**Status:**
+
+* Klar
+
 ### UC 1.6 - Användaren söker på ett nyckelord och anger yrkesgrupp ###
 
 **Input:**
@@ -111,7 +131,11 @@ Användaren vill ha information om ett område.
 
 * Som 1.2, fast endast med data från den aktuella yrkesgruppen.
 * En länkad lista med andra yrkesgrupper där nyckelordet är vanligt visas.
-* En länkad lista med andra för yrkesgruppen vanliga nyckelord visas.
+* En länkad lista med andra för yrkesgruppen vanliga nyckelord visas. (Ej implementerad)
+
+**Status:**
+
+* Påbörjad
 
 ### UC 1.7 - Användaren söker på region och yrkesgrupp ###
 
@@ -124,9 +148,13 @@ Användaren vill ha information om ett område.
 
 **Output:**
 
-* Ett länkat stapeldiagram med de vanligaste nyckelorden för yrkeskåren i regionen visas.
-* En graf som visar frekvensen på jobbannonser för yrkesgruppen i den regionen presenteras.
-* Regionens namn framgår tydligt på sidan.
+* Ett länkat stapeldiagram med de vanligaste nyckelorden för yrkeskåren i regionen visas. (Ej implementerad)
+* En graf som visar frekvensen på jobbannonser för yrkesgruppen i den regionen presenteras. (Ej implementerad)
+* Regionens namn framgår tydligt på sidan. (Ej implementerad)
+
+**Status:**
+
+* Ej påbörjad
 
 ### UC 1.8 - Användaren söker på ett nyckelord och anger region och yrkesgrupp ###
 
@@ -141,6 +169,10 @@ Användaren vill ha information om ett område.
 **Output:**
 
 * Som 1.2, fast endast med data från den aktuella regionen och inom yrkesgruppen.
-* En länkad lista med andra yrkesgrupper i regionen där nyckelordet är vanligt visas.
-* En länkad lista med andra för yrkesgruppen vanliga nyckelord visas.
-* Regionens och yrkesgruppens namn framgår tydligt på sidan.
+* En länkad lista med andra yrkesgrupper i regionen där nyckelordet är vanligt visas. (Ej implementerad)
+* En länkad lista med andra för yrkesgruppen vanliga nyckelord visas. (Ej implementerad)
+* Regionens och yrkesgruppens namn framgår tydligt på sidan. (Ej implementerad)
+
+**Status:**
+
+* Påbörjad

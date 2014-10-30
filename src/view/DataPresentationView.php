@@ -277,12 +277,8 @@ class DataPresentationView {
 	public function showResult($result) {
 		$html = $this->searchForm();
 		
-		// Show keyword if applicable.
-		if($result->getKeyword() !== null) {
-			$html .= "
-			<h3>\"" . $result->getKeyword() . "\"</h3>
-			";
-		}
+		$heading = $this->createHeading($result);
+		$html .= $heading;
 		
 		// Show graphs if there are any.
 		foreach($result->getGraphs() as $graph) {
@@ -294,20 +290,20 @@ class DataPresentationView {
 		
 		// Show a neat table containing top 10 job titles in the chosen area and/or with chosen keyword.
 		if(count($result->getRelatedJobTitles()) > 1) {
-			$heading = "Topp 10 jobb";
+			$tableHeading = "Topp 10 jobb";
 			
 			// If there's only one county that means the user selected it specifically. Let's include its name in the heading.
 			if(count($result->getRelatedCounties()) == 1) {
-				$heading .= " i " . $result->getRelatedCounties()[0][0]->getName() ;
+				$tableHeading .= " i " . $result->getRelatedCounties()[0][0]->getName();
 			}
 			
 			// If there's a keyword in the search we include that in the heading as well.
 			if($result->getKeyword() !== null) {
-				$heading .= " som efterfrågar \"" . $result->getKeyword() . "\"";
+				$tableHeading .= " som efterfrågar \"" . $result->getKeyword() . "\"";
 			}
 			
 			$html .= "
-			<h4>$heading</h4>
+			<h4>$tableHeading</h4>
 			<table>
 			";
 			
@@ -326,23 +322,23 @@ class DataPresentationView {
 		
 		// Show a neat table containing top 10 areas where jobs with this keyword are in demand.
 		if(count($result->getRelatedCounties()) > 1) {
-			$heading = "Topp 10 län";
+			$tableHeading = "Topp 10 län";
 			
 			// If there's a keyword in the search we include that in the heading.
 			if($result->getKeyword() !== null) {
-				$heading .= " som efterfrågar \"" . $result->getKeyword() . "\"";
+				$tableHeading .= " som efterfrågar \"" . $result->getKeyword() . "\"";
 			}
 			
 			// Show job title in heading if relevant, change text depending on if there's a keyword in the mix or not.
 			if(count($result->getRelatedJobTitles()) == 1 && $result->getKeyword() !== null) {
-				$heading .= " bland " . $result->getRelatedJobTitles()[0][0]->getName();
+				$tableHeading .= " bland " . $result->getRelatedJobTitles()[0][0]->getName();
 			}
 			else if(count($result->getRelatedJobTitles()) == 1) {
-				$heading .= " efterfrågar " . $result->getRelatedJobTitles()[0][0]->getName();
+				$tableHeading .= " efterfrågar " . $result->getRelatedJobTitles()[0][0]->getName();
 			}
 			
 			$html .= "
-			<h4>$heading</h4>
+			<h4>$tableHeading</h4>
 			<table>
 			";
 			foreach($result->getRelatedCounties() as $county) {
@@ -376,6 +372,32 @@ class DataPresentationView {
 				break;
 		}
 		echo $options;
+	}
+	
+	public function createHeading($result) {
+		// Show keyword if applicable.
+		$heading = "<h3>";
+		
+		if($result->getKeyword() !== null) {
+			$heading .= $result->getKeyword();
+		}
+		
+		if(count($result->getRelatedJobTitles()) == 1 && count($result->getRelatedCounties()) == 1) {
+			$heading .= " bland " . $result->getRelatedJobTitles()[0][0]->getName() . " i " . $result->getRelatedCounties()[0][0]->getName();
+		}
+		/*
+		else if() {
+			
+		}
+		*/
+		if($heading == "<h3>") {
+			$heading = "";
+		}
+		else {
+			$heading .= "</h3>";
+		}
+		
+		return $heading;
 	}
 	
 	// Sets a message that is shown to the user.
