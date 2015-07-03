@@ -78,10 +78,12 @@ class JobCategoryRepository extends Repository {
  	public function getFromXML($XMLPath) {
  		$xml = $this->loadXML($XMLPath);
 		$jobCategories = array();
-		foreach($xml->sokdata as $jobCategoryNode) {
-			$jobCategory = new JobCategory(0, $jobCategoryNode->id, $jobCategoryNode->namn);
-			$jobCategories[] = $jobCategory;
-		}
+        if(isset($xml) && is_object($xml)) {
+            foreach ($xml->sokdata as $jobCategoryNode) {
+                $jobCategory = new JobCategory(0, $jobCategoryNode->id, $jobCategoryNode->namn);
+                $jobCategories[] = $jobCategory;
+            }
+        }
 		return $jobCategories;
  	}
 }

@@ -128,10 +128,12 @@ class MunicipalityRepository extends Repository {
  	public function getFromXML($XMLPath, $foreignKey) {
  		$xml = $this->loadXML($XMLPath);
 		$municipalities = array();
-		foreach($xml->sokdata as $municipalityNode) {
-			$municipality = new Municipality(0, $municipalityNode->id, $municipalityNode->namn, $foreignKey);
-			$municipalities[] = $municipality;
-		}
+        if(isset($xml) && is_object($xml)) {
+            foreach ($xml->sokdata as $municipalityNode) {
+                $municipality = new Municipality(0, $municipalityNode->id, $municipalityNode->namn, $foreignKey);
+                $municipalities[] = $municipality;
+            }
+        }
 		return $municipalities;
  	}
 

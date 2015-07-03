@@ -75,8 +75,10 @@ class JobAdRepository extends Repository {
 	// Fetches records from an xml source and returns them as objects in an array
  	public function getFromXML($XMLPath) {
  		$xml = $this->loadXML($XMLPath);
-		$jobAd = new JobAd(0, $xml->annons->annonsid, $xml->annons->annonsrubrik, $xml->annons->annonstext, $xml->annons->yrkesbenamning,
-		$xml->annons->yrkesid, $xml->annons->publiceraddatum, $xml->annons->antal_platser, $xml->annons->kommunnamn);
+        if(isset($xml) && is_object($xml)) {
+            $jobAd = new JobAd(0, $xml->annons->annonsid, $xml->annons->annonsrubrik, $xml->annons->annonstext, $xml->annons->yrkesbenamning,
+                $xml->annons->yrkesid, $xml->annons->publiceraddatum, $xml->annons->antal_platser, $xml->annons->kommunnamn);
+        }
 		return $jobAd;
  	}
 	
@@ -85,15 +87,19 @@ class JobAdRepository extends Repository {
 		$counties = $this->countyRepository->getFromXML(BASE_PATH . AD_PATH . SEARCH_LIST_PATH . COUNTY_PATH);
 		foreach($counties as $county) {
 			$xml = $this->loadXML(BASE_PATH . AD_PATH . MATCH_PATH . COUNTY_ID_PATH . $county->getCountyId());
-			$pages = $xml->antal_sidor;
-			for($x = 1; $x <= $pages; $x++) {
-				$xml = $this->loadXML(BASE_PATH . AD_PATH . MATCH_PATH . COUNTY_ID_PATH . $county->getCountyId() . PAGE_PATH . $x);
-				foreach($xml->matchningdata as $match) {
-					$jobAd = $this->getFromXML(BASE_PATH . AD_PATH . $match->annonsid);
-					$this->add($jobAd);
-				}
-				set_time_limit(60);
-			}
+            if(isset($xml) && is_object($xml)) {
+                $pages = $xml->antal_sidor;
+                for ($x = 1; $x <= $pages; $x++) {
+                    $xml = $this->loadXML(BASE_PATH . AD_PATH . MATCH_PATH . COUNTY_ID_PATH . $county->getCountyId() . PAGE_PATH . $x);
+                    if(isset($xml) && is_object($xml)) {
+                        foreach ($xml->matchningdata as $match) {
+                            $jobAd = $this->getFromXML(BASE_PATH . AD_PATH . $match->annonsid);
+                            $this->add($jobAd);
+                        }
+                    }
+                    set_time_limit(60);
+                }
+            }
 		}
 	}
 

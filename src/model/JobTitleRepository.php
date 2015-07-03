@@ -108,10 +108,12 @@ class JobTitleRepository extends Repository {
  	public function getFromXML($XMLPath, $foreignKey) {
  		$xml = $this->loadXML($XMLPath);
 		$jobTitles = array();
-		foreach($xml->sokdata as $jobTitleNode) {
-			$jobTitle = new JobTitle(0, $jobTitleNode->id, $jobTitleNode->namn, $foreignKey);
-			$jobTitles[] = $jobTitle;
-		}
+        if(isset($xml) && is_object($xml)) {
+            foreach ($xml->sokdata as $jobTitleNode) {
+                $jobTitle = new JobTitle(0, $jobTitleNode->id, $jobTitleNode->namn, $foreignKey);
+                $jobTitles[] = $jobTitle;
+            }
+        }
 		return $jobTitles;
  	}
 

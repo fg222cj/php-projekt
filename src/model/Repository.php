@@ -12,11 +12,15 @@ abstract class Repository {
 	protected $XMLElement;
 	
 	protected function connection() {
-		if ($this->dbConnection == NULL) {
-			$this->dbConnection = new \PDO(DB_CONNECTION, DB_USERNAME, DB_PASSWORD);
-		}
-		$this->dbConnection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-		
+        try {
+            if ($this->dbConnection == NULL) {
+                $this->dbConnection = new \PDO(DB_CONNECTION, DB_USERNAME, DB_PASSWORD);
+            }
+            $this->dbConnection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        }
+        catch(\Exception $e) {
+            throw new \Exception("Unable to reach database");
+        }
 		return $this->dbConnection;
 	}
 	

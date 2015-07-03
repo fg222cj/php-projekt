@@ -98,10 +98,12 @@ class CountyRepository extends Repository {
  	public function getFromXML($XMLPath) {
  		$xml = $this->loadXML($XMLPath);
 		$counties = array();
-		foreach($xml->sokdata as $countyNode) {
-			$county = new County(0, $countyNode->id, $countyNode->namn);
-			$counties[] = $county;
-		}
+        if(isset($xml) && is_object($xml)) {
+            foreach ($xml->sokdata as $countyNode) {
+                $county = new County(0, $countyNode->id, $countyNode->namn);
+                $counties[] = $county;
+            }
+        }
 		return $counties;
  	}
 }

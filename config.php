@@ -12,8 +12,7 @@ define("DB_CONNECTION", "mysql:host=127.0.0.1;dbname=amg;charset=utf8");
 /* Local settings - THESE NEED TO BE EDITED ON NEW INSTALLATIONS */
 // Local system paths. Remember to escape backslashes on windows systems.
 define("PHP_EXECUTE_FILE_PATH", "php -f");
-define("BASE_ABSOLUTE_PATH", "/home/foss/public_html/amg/");
-
+define("BASE_ABSOLUTE_PATH", $_SERVER['DOCUMENT_ROOT'] . '/');
 
 /* XML API settings */
 define("BASE_PATH", "http://api.arbetsformedlingen.se/");

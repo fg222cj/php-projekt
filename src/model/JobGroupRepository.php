@@ -114,10 +114,12 @@ class JobGroupRepository extends Repository {
  	public function getFromXML($XMLPath, $foreignKey) {
  		$xml = $this->loadXML($XMLPath);
 		$jobGroups = array();
-		foreach($xml->sokdata as $jobGroupNode) {
-			$jobGroup = new JobGroup(0, $jobGroupNode->id, $jobGroupNode->namn, $foreignKey);
-			$jobGroups[] = $jobGroup;
-		}
+        if(isset($xml) && is_object($xml)) {
+            foreach ($xml->sokdata as $jobGroupNode) {
+                $jobGroup = new JobGroup(0, $jobGroupNode->id, $jobGroupNode->namn, $foreignKey);
+                $jobGroups[] = $jobGroup;
+            }
+        }
 		return $jobGroups;
  	}
 	
