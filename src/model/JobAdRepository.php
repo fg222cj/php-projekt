@@ -4,12 +4,15 @@ namespace model;
 require_once('./src/model/JobAd.php');
 require_once('./src/model/Repository.php');
 require_once('./src/model/CountyRepository.php');
+require_once('./src/model/AdRepository.php');
 
 class JobAdRepository extends Repository {
 	private $countyRepository;
+    private $adRepository;
 	
 	public function __construct() {
 		$this->countyRepository = new CountyRepository();
+        $this->adRepository = new AdRepository();
 	}
 
 	// Inserts object into db
@@ -75,6 +78,7 @@ class JobAdRepository extends Repository {
 	// Fetches records from an xml source and returns them as objects in an array
  	public function getFromXML($XMLPath) {
  		$xml = $this->loadXML($XMLPath);
+        $jobAd = null;
         if(isset($xml) && is_object($xml)) {
             $jobAd = new JobAd(0, $xml->annons->annonsid, $xml->annons->annonsrubrik, $xml->annons->annonstext, $xml->annons->yrkesbenamning,
                 $xml->annons->yrkesid, $xml->annons->publiceraddatum, $xml->annons->antal_platser, $xml->annons->kommunnamn);
@@ -84,6 +88,7 @@ class JobAdRepository extends Repository {
 	
 	// Requests and inserts job ads into the db.
 	public function populateJobAdTable() {
+        $existingIds = $this->adRepository->getAllIdFields();
 		$counties = $this->countyRepository->getFromXML(BASE_PATH . AD_PATH . SEARCH_LIST_PATH . COUNTY_PATH);
 		foreach($counties as $county) {
 			$xml = $this->loadXML(BASE_PATH . AD_PATH . MATCH_PATH . COUNTY_ID_PATH . $county->getCountyId());
@@ -93,6 +98,9 @@ class JobAdRepository extends Repository {
                     $xml = $this->loadXML(BASE_PATH . AD_PATH . MATCH_PATH . COUNTY_ID_PATH . $county->getCountyId() . PAGE_PATH . $x);
                     if(isset($xml) && is_object($xml)) {
                         foreach ($xml->matchningdata as $match) {
+                            if(in_array($match->annonsid, $existingIds)) {
+                                continue;
+                            }
                             $jobAd = $this->getFromXML(BASE_PATH . AD_PATH . $match->annonsid);
                             $this->add($jobAd);
                         }

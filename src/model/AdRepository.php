@@ -286,7 +286,19 @@ class AdRepository extends Repository {
 
 		return null;
 	}
-	
+
+    // Used to discern relevant keywords.
+    public function getAllIdFields() {
+        $db = $this->connection();
+
+        $sql = "SELECT " . JOB_AD_ID_COLUMN . " FROM " . JOB_AD_TABLE;
+
+        $query = $db->prepare($sql);
+        $query->execute();
+
+        $result = $query->fetchAll(\PDO::FETCH_COLUMN, 0);
+        return $result;
+    }
 	// Removes a record from the db
 	public function delete(\model\Ad $ad) {
 		$db = $this -> connection();

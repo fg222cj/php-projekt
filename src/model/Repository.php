@@ -26,10 +26,18 @@ abstract class Repository {
 	
 	// Loads XML from path, returns it as an XMLElement
 	public function loadXML($XMLPath) {
-		$this->XMLPath = $XMLPath; 
+		$this->XMLPath = $XMLPath;
 		$XMLContents = $this->get_url_contents($this->XMLPath);
-		$this->XMLElement = simplexml_load_string($XMLContents);
-		return $this->XMLElement;
+        try {
+            $this->XMLElement = simplexml_load_string($XMLContents);
+        }
+        catch(\Exception $e) {
+            return null;
+        }
+        if(isset($this->XMLElement) && is_object($this->XMLElement)) {
+            return $this->XMLElement;
+        }
+        return null;
 	}
 	
 	// Fetches remote content as xml

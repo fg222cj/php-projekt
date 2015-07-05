@@ -44,18 +44,24 @@ class DataScrapeModel {
 		$counties = $this->countyRepository->getFromXML(BASE_PATH . AD_PATH . SEARCH_LIST_PATH . COUNTY_PATH);
 		foreach($counties as $county) {
 			$xml = $this->jobAdRepository->loadXML(BASE_PATH . AD_PATH . MATCH_PATH . COUNTY_ID_PATH . $county->getCountyId());
-			$pages = $xml->antal_sidor;
-			for($x = 1; $x <= $pages; $x++) {
-				$xml = $this->jobAdRepository->loadXML(BASE_PATH . AD_PATH . MATCH_PATH . COUNTY_ID_PATH . $county->getCountyId() . PAGE_PATH . $x);
-				foreach($xml->matchningdata as $match) {
-					$jobAd = $this->jobAdRepository->getFromXML(BASE_PATH . AD_PATH . $match->annonsid);
-					$ad = $this->adAdapter->adapt($jobAd);
-					if(isset($ad)) {
-						$this->adRepository->add($ad);
-					}
-				}
-				set_time_limit(60);
-			}
+            if(isset($xml) && is_object($xml)) {
+                $pages = $xml->antal_sidor;
+                for ($x = 1; $x <= $pages; $x++) {
+                    $xml = $this->jobAdRepository->loadXML(BASE_PATH . AD_PATH . MATCH_PATH . COUNTY_ID_PATH . $county->getCountyId() . PAGE_PATH . $x);
+                    if(isset($xml) && is_object($xml)) {
+                        foreach ($xml->matchningdata as $match) {
+                            $jobAd = $this->jobAdRepository->getFromXML(BASE_PATH . AD_PATH . $match->annonsid);
+                            if(isset($jobAd) && is_object($jobAd)) {
+                                $ad = $this->adAdapter->adapt($jobAd);
+                                if (isset($ad)) {
+                                    $this->adRepository->add($ad);
+                                }
+                            }
+                        }
+                        set_time_limit(60);
+                    }
+                }
+            }
 		}
 		
 		$this->updateLog($scrapeLog);
